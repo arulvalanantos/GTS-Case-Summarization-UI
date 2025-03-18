@@ -19,12 +19,12 @@ html {
     --color-toast-success: #5cb85c;
     --color-toast-error: #ff2c2c;
 
-    --font-family-primary: 'Roboto', sans-serif;
+    --font-primary: 'Roboto', sans-serif;
 }
 
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    @apply font-family-primary;
+    @apply font-primary;
 }
