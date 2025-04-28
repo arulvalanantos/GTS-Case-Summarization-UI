@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 import CaseNote from './CaseNote'
-import SectionTitle from './Title'
+import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { noOfRowsPerPages } from '@/common/static'
