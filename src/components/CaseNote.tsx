@@ -22,22 +22,10 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
         navigator.clipboard
             .writeText(caseNote.Message)
             .then(() => {
-                dispatch(
-                    showSnackbar({
-                        message: constants.MESSAGE.COPIED,
-                        severity: 'success',
-                        open: true
-                    })
-                )
+                dispatch(showSnackbar(constants.MESSAGE.COPIED))
             })
             .catch((error) => {
-                dispatch(
-                    showSnackbar({
-                        message: constants.ERROR_MESSAGE.FAILED_TO_COPY + error,
-                        severity: 'error',
-                        open: true
-                    })
-                )
+                dispatch(showSnackbar(constants.ERROR_MESSAGE.FAILED_TO_COPY + error))
             })
     }
 
