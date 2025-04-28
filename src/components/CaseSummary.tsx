@@ -1,12 +1,21 @@
 import React from 'react'
-
+import { useSelector } from 'react-redux'
 import { FaRegClone } from 'react-icons/fa'
 import { FaArrowRotateLeft } from 'react-icons/fa6'
 
+import Utils from '@/common/utils'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
+import { summarySelector } from '@/store/reducers/summary'
 
 const CaseSummary: React.FC = () => {
+    const { summary } = useSelector(summarySelector)
+
+    const handleCopy = () => {
+        if (!summary) return
+        Utils.copyToClipboard(summary)
+    }
+
     return (
         <section
             id="case-summary"
@@ -19,6 +28,7 @@ const CaseSummary: React.FC = () => {
                         title="Copy Summary"
                         type="button"
                         className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
+                        onClick={handleCopy}
                     >
                         <FaRegClone size={12} />
                     </button>
@@ -31,17 +41,18 @@ const CaseSummary: React.FC = () => {
                     </button>
                 </div>
             </div>
-            <div>
-                <p className="bg-secondary p-2 rounded font-normal text-sm">
-                    A user is struggling to reset their password due to repeated
-                    errors with their security question. Despite trying multiple
-                    browsers and clearing cache, the issue persists. The agent
-                    verifies the user’s email, confirms troubleshooting steps,
-                    and escalates the issue to the technical team for manual
-                    intervention. The user appreciates the help and awaits an
-                    email with further instructions.
+            {summary ? (
+                <div>
+                    <p className="bg-secondary p-2 rounded font-normal text-sm">
+                        {summary}
+                    </p>
+                </div>
+            ) : (
+                <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full">
+                    No summary available. Please generate a summary to view it
+                    here.
                 </p>
-            </div>
+            )}
         </section>
     )
 }
