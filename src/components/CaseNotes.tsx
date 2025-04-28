@@ -8,12 +8,26 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import CaseNote from './CaseNote'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
-import { caseNotesSelector } from '@/store/reducers/case-notes'
+import { useAppDispatch } from '@/store/hooks'
+import { noOfRowsPerPages } from '@/common/static'
+import {
+    caseNotesSelector,
+    setNoOfRowsPerPage
+} from '@/store/reducers/case-notes'
 
 const CaseNotes: React.FC = () => {
+    const dispatch = useAppDispatch()
+
     const [isFocused, setIsFocused] = useState(false)
 
-    const { caseNotes } = useSelector(caseNotesSelector)
+    const { caseNotes, noOfRowsPerPage } = useSelector(caseNotesSelector)
+
+    const handleChangeNoOfRowsPerPage = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const value = event.target.value
+        dispatch(setNoOfRowsPerPage(value))
+    }
 
     return (
         <section
@@ -26,7 +40,7 @@ const CaseNotes: React.FC = () => {
                     <div className="flex flex-row gap-3">
                         <button
                             type="button"
-                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer"
+                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none"
                         >
                             <span className="text-xs flex flex-row items-center gap-1">
                                 <span className="hidden sm:flex">Sort by</span>
@@ -36,7 +50,7 @@ const CaseNotes: React.FC = () => {
                         </button>
                         <button
                             type="button"
-                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer"
+                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none"
                         >
                             <span className="text-xs flex flex-row items-center gap-1">
                                 <span className="hidden sm:flex">Sort by</span>
@@ -76,10 +90,16 @@ const CaseNotes: React.FC = () => {
             <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
                 <div className="flex flex-row items-center gap-2">
                     <p className="text-xs text-dark-gray">Rows per page:</p>
-                    <select className="text-xs outline-none border-none">
-                        <option value="5">10</option>
-                        <option value="10">25</option>
-                        <option value="20">50</option>
+                    <select
+                        className="text-xs outline-none border-none"
+                        value={noOfRowsPerPage}
+                        onChange={handleChangeNoOfRowsPerPage}
+                    >
+                        {noOfRowsPerPages.map((row) => (
+                            <option key={row.value} value={row.value}>
+                                {row.label}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div className="flex flex-row items-center gap-5">

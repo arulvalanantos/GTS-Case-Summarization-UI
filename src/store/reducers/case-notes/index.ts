@@ -12,9 +12,15 @@ const initialState: CaseNotesInitialState = {
 const caseNotesSlice = createSlice({
     name: constants.STORE.CASE_NOTES,
     initialState,
-    reducers: {},
+    reducers: {
+        setNoOfRowsPerPage: (state, action) => {
+            state.noOfRowsPerPage = action.payload
+        }
+    },
     extraReducers: () => {}
 })
+
+export const { setNoOfRowsPerPage } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes
 

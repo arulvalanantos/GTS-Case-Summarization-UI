@@ -48,8 +48,9 @@ const SearchForm: React.FC = () => {
                 )}
                 <button
                     type="button"
-                    className="flex items-center justify-center"
+                    className="flex items-center justify-center cursor-pointer"
                     onClick={toggleFormExpand}
+                    title={isFormExpanded ? 'Collapse' : 'Expand'}
                     aria-label={isFormExpanded ? 'Collapse' : 'Expand'}
                 >
                     <Icon />
@@ -61,7 +62,9 @@ const SearchForm: React.FC = () => {
                     className="w-full flex flex-col gap-2 mt-5"
                 >
                     <div>
-                        <label className="text-xs">Claimant ID</label>
+                        <label className="text-xs select-none">
+                            Claimant ID
+                        </label>
                         <TextField
                             type="number"
                             size="small"
@@ -87,7 +90,9 @@ const SearchForm: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="text-xs">Start Date</label>
+                        <label className="text-xs select-none">
+                            Start Date
+                        </label>
                         <DatePicker
                             className="w-full bg-white"
                             reduceAnimations
@@ -102,7 +107,7 @@ const SearchForm: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="text-xs">End Date</label>
+                        <label className="text-xs select-none">End Date</label>
                         <DatePicker
                             className="w-full bg-white"
                             disabled={false}

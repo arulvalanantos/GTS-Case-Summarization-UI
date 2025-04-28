@@ -2,7 +2,9 @@ import React from 'react'
 import { FaRegClone } from 'react-icons/fa'
 import { BsBoxArrowInUpRight } from 'react-icons/bs'
 
-import Utils from '@/common/utils'
+import constants from '@/common/constants'
+import { useAppDispatch } from '@/store/hooks'
+import { showSnackbar } from '@/store/reducers/alert'
 import { ICaseNote } from '@/store/reducers/case-notes/types'
 
 type CaseNoteProps = {
@@ -10,10 +12,33 @@ type CaseNoteProps = {
 }
 
 const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
+    const dispatch = useAppDispatch()
+
     const isRedacted = caseNote.Redacted === 'Yes'
 
     const handleCopy = () => {
-        Utils.copyToClipboard(caseNote.Message)
+        if (!caseNote || !caseNote.Message) return
+
+        navigator.clipboard
+            .writeText(caseNote.Message)
+            .then(() => {
+                dispatch(
+                    showSnackbar({
+                        message: constants.MESSAGE.COPIED,
+                        severity: 'success',
+                        open: true
+                    })
+                )
+            })
+            .catch((error) => {
+                dispatch(
+                    showSnackbar({
+                        message: constants.ERROR_MESSAGE.FAILED_TO_COPY + error,
+                        severity: 'error',
+                        open: true
+                    })
+                )
+            })
     }
 
     return (
