@@ -41,3 +41,8 @@ body {
 input::placeholder {
   user-select: none;
 }
+
+.MuiPickersSectionList-root {
+    padding: 0 !important;
+    font-size: 12px !important;
+}

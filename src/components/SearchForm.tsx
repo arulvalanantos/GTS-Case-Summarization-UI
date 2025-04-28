@@ -153,36 +153,27 @@ const SearchForm: React.FC = () => {
                             Start Date
                         </label>
                         <DatePicker
+                            name="startDate"
                             className="w-full bg-white"
                             disabled={isFetchingCaseNotes}
-                            slots={{
-                                textField: (props) => (
-                                    <TextField {...props} size="small" />
-                                )
-                            }}
                             minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
-                            enableAccessibleFieldDOMStructure={false}
                             value={dayjs(form.startDate)}
                             onChange={onStartDateChange}
+                            reduceAnimations
                         />
                     </div>
                     <div>
                         <label className="text-xs select-none">End Date</label>
                         <DatePicker
+                            name="endDate"
                             className="w-full bg-white"
                             disabled={isFetchingCaseNotes}
-                            maxDate={dayjs()}
-                            slots={{
-                                textField: (props) => (
-                                    <TextField {...props} size="small" />
-                                )
-                            }}
                             minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
-                            enableAccessibleFieldDOMStructure={false}
                             value={dayjs(form.endDate)}
                             onChange={onEndDateChange}
+                            reduceAnimations
                         />
                     </div>
                     <button
