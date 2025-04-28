@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { FaRegClone } from 'react-icons/fa'
 import { FaArrowRotateLeft } from 'react-icons/fa6'
 
-import SectionTitle from './Title'
+import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { summarySelector, toggleSummary } from '@/store/reducers/summary'
@@ -22,22 +22,11 @@ const CaseSummary: React.FC = () => {
         navigator.clipboard
             .writeText(summary)
             .then(() => {
-                dispatch(
-                    showSnackbar({
-                        message: constants.MESSAGE.COPIED,
-                        severity: 'success',
-                        open: true
-                    })
-                )
+                dispatch(showSnackbar(constants.MESSAGE.COPIED))
             })
             .catch((error) => {
-                console.error('Failed to copy text:', error)
                 dispatch(
-                    showSnackbar({
-                        message: constants.ERROR_MESSAGE.FAILED_TO_COPY,
-                        severity: 'error',
-                        open: true
-                    })
+                    showSnackbar(constants.ERROR_MESSAGE.FAILED_TO_COPY + error)
                 )
             })
     }

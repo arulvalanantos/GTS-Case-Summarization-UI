@@ -6,7 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CircularProgress from '@mui/material/CircularProgress'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
-import SectionTitle from './Title'
+import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { showSnackbar } from '@/store/reducers/alert'
