@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import TextField from '@mui/material/TextField'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
@@ -7,9 +8,12 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import CaseNote from './CaseNote'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
+import { caseNotesSelector } from '@/store/reducers/case-notes'
 
 const CaseNotes: React.FC = () => {
     const [isFocused, setIsFocused] = useState(false)
+
+    const { caseNotes } = useSelector(caseNotesSelector)
 
     return (
         <section
@@ -65,8 +69,8 @@ const CaseNotes: React.FC = () => {
                 />
             </div>
             <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
-                {Array.from({ length: 5 }, (_, index) => (
-                    <CaseNote key={index} claimId={(index + 1).toString()} />
+                {caseNotes.map((caseNote, index) => (
+                    <CaseNote key={index} caseNote={caseNote} />
                 ))}
             </div>
             <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">

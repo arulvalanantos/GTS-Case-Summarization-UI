@@ -2,7 +2,7 @@ const constants = {
     STORE: {
         CONFIG: 'config',
         SUMMARY: 'summary',
-        CASE_NOTES: 'case_note'
+        CASE_NOTES: 'case_notes'
     },
     TITLE: {
         CLAIM_DETAILS: 'Claim Details',

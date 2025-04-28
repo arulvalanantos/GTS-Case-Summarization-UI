@@ -1,20 +1,19 @@
+import React from 'react'
 import { FaRegClone } from 'react-icons/fa'
 import { BsBoxArrowInUpRight } from 'react-icons/bs'
 
+import Utils from '@/common/utils'
+import { ICaseNote } from '@/store/reducers/case-notes/types'
+
 type CaseNoteProps = {
-    claimId: string
+    caseNote: ICaseNote
 }
 
-const CaseNote: React.FC<CaseNoteProps> = ({ claimId }) => {
+const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
+    const isRedacted = caseNote.Redacted === 'Yes'
+
     const handleCopy = () => {
-        navigator.clipboard
-            .writeText(claimId)
-            .then(() => {
-                console.log('Claim ID copied to clipboard')
-            })
-            .catch((error) => {
-                console.error('Failed to copy Claim ID:', error)
-            })
+        Utils.copyToClipboard(caseNote.Message)
     }
 
     return (
@@ -23,13 +22,17 @@ const CaseNote: React.FC<CaseNoteProps> = ({ claimId }) => {
                 <div className="flex flex-row items-center justify-between  ">
                     <div className="flex flex-col gap-1">
                         <h2 className="text-sm md:text-base font-bold">
-                            CLAIM ID: {claimId}
+                            CLAIM ID: {caseNote.Claim_ID}
                         </h2>
                         <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
-                            <p className="text-primary ">03-18-2025</p>
-                            <p className="bg-primary text-white px-2 rounded">
-                                Redacted
+                            <p className="text-primary ">
+                                {caseNote.Created_Date}
                             </p>
+                            {isRedacted && (
+                                <p className="bg-primary text-white px-2 rounded">
+                                    Redacted
+                                </p>
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-row items-center gap-2">
@@ -56,19 +59,16 @@ const CaseNote: React.FC<CaseNoteProps> = ({ claimId }) => {
                 </div>
                 <div className="flex flex-row items-center gap-5 mt-2 text-xs md:text-sm text-primary">
                     <p>
-                        Created By: <span>User 1</span>
+                        Created By: <span>{caseNote.Created_By}</span>
                     </p>
                     <p>
-                        Process Type: <span>Type A</span>
+                        Process Type: <span>{caseNote.Process_Type}</span>
                     </p>
                 </div>
             </div>
             <div>
                 <p className="text-xs md:text-sm font-normal line-clamp-3">
-                    Rest assured, John, we’ll get this resolved for you. Let me
-                    double-check if there’s a known issue with security
-                    questions or if your account has specific settings causing
-                    this.
+                    {caseNote.Message}
                 </p>
             </div>
         </div>

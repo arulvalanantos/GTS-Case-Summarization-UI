@@ -1,12 +1,16 @@
-import { RootState } from '@/store/types'
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-    caseNotes: []
+import { RootState } from '@/store/types'
+import constants from '@/common/constants'
+import { CaseNotesInitialState } from './types'
+
+const initialState: CaseNotesInitialState = {
+    caseNotes: [],
+    noOfRowsPerPage: 10
 }
 
 const caseNotesSlice = createSlice({
-    name: 'caseNotes',
+    name: constants.STORE.CASE_NOTES,
     initialState,
     reducers: {},
     extraReducers: () => {}
