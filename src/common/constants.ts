@@ -17,13 +17,21 @@ const constants = {
         CASE_SUMMARY: 'Case Summary',
         CASE_NOTES: 'Case Notes'
     },
+    ERROR_TEXT: {
+        NETWORK_RELATED: 'network-related',
+        CANCELED: 'canceled'
+    },
     MESSAGE: {
-        COPIED: 'Copied to clipboard'
+        COPIED: 'Copied to clipboard',
+        SOMETHING_WENT_WRONG: 'Something went wrong',
+        REQUEST_WAS_CANCELLED: 'Request was cancelled'
     },
     ERROR_MESSAGE: {
-        FAILED_TO_COPY: 'Failed to copy text: '
+        FAILED_TO_COPY: 'Failed to copy text: ',
+        UNABLE_TO_FETCH_CASE_NOTES: 'Unable to fetch case notes',
+        UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary'
     },
-    MIN_START_DATE: '2013-10-15',
+    MIN_START_DATE: '2013-10-15'
 }
 
 export default Object.freeze(constants)

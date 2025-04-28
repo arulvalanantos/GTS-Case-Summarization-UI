@@ -10,6 +10,7 @@ import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { showSnackbar } from '@/store/reducers/alert'
+import { fetchCaseNotes } from '@/store/reducers/case-notes/thunk'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
 import {
     caseNotesSelector,
@@ -89,7 +90,7 @@ const SearchForm: React.FC = () => {
             return
         }
 
-        console.log(form)
+        dispatch(fetchCaseNotes())
     }
 
     useEffect(() => {

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
+import Utils from '@/common/utils'
+import constants from '@/common/constants'
 import CaseNotesService from '@api/services/case-notes'
 
 export const fetchCaseNotes = createAsyncThunk(
@@ -9,7 +11,11 @@ export const fetchCaseNotes = createAsyncThunk(
             const response = await CaseNotesService.fetchCaseNotes()
             return response.data
         } catch (error) {
-            return thunkAPI.rejectWithValue(error as string)
+            return Utils.handleThunkRejection(
+                error,
+                thunkAPI,
+                constants.ERROR_MESSAGE.UNABLE_TO_FETCH_CASE_NOTES
+            )
         }
     }
 )

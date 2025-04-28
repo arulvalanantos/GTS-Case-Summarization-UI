@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
+import Utils from '@/common/utils'
+import constants from '@/common/constants'
 import SummaryService from '@api/services/summary'
 
 export const fetchSummary = createAsyncThunk(
@@ -9,7 +11,11 @@ export const fetchSummary = createAsyncThunk(
             const response = await SummaryService.getSummary()
             return response.data
         } catch (error) {
-            return thunkAPI.rejectWithValue(error as string)
+            return Utils.handleThunkRejection(
+                error,
+                thunkAPI,
+                constants.ERROR_MESSAGE.UNABLE_TO_FETCH_SUMMARY
+            )
         }
     }
 )
