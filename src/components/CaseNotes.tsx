@@ -12,7 +12,10 @@ import { useAppDispatch } from '@/store/hooks'
 import { noOfRowsPerPages } from '@/common/static'
 import {
     caseNotesSelector,
-    setNoOfRowsPerPage
+    setNoOfRowsPerPage,
+    toggleCaseNotes,
+    toggleSortClaimantIDOrder,
+    toggleSortDateOrder
 } from '@/store/reducers/case-notes'
 
 const CaseNotes: React.FC = () => {
@@ -20,7 +23,16 @@ const CaseNotes: React.FC = () => {
 
     const [isFocused, setIsFocused] = useState(false)
 
-    const { caseNotes, noOfRowsPerPage } = useSelector(caseNotesSelector)
+    const {
+        caseNotes,
+        noOfRowsPerPage,
+        isCaseNotesExpanded,
+        sort: { date: dateSort, claimantID: claimantIDSort }
+    } = useSelector(caseNotesSelector)
+
+    const DateSortIcon = dateSort === 'asc' ? FaArrowUp : FaArrowDown
+    const ClaimantIDSortIcon =
+        claimantIDSort === 'asc' ? FaArrowUp : FaArrowDown
 
     const handleChangeNoOfRowsPerPage = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -29,89 +41,136 @@ const CaseNotes: React.FC = () => {
         dispatch(setNoOfRowsPerPage(value))
     }
 
+    const handleCaseNoteExpandsion = () => {
+        dispatch(toggleCaseNotes())
+    }
+
+    const handleCaseNoteDateSort = (event: React.MouseEvent) => {
+        event.stopPropagation()
+        dispatch(toggleSortDateOrder())
+    }
+
+    const handleClaimantIDSort = (event: React.MouseEvent) => {
+        event.stopPropagation()
+        dispatch(toggleSortClaimantIDOrder())
+    }
+
     return (
         <section
             id="case-notes"
-            className="flex-4 flex flex-col w-full h-full min-h-0"
+            className={`flex flex-col ${
+                isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
+            }`}
         >
-            <div className="flex flex-col gap-3 p-2 px-3 flex-none">
-                <div className="flex flex-row items-center justify-between gap-2 sm:gap-0">
+            <div className="flex flex-col gap-3 flex-none">
+                <div
+                    onClick={handleCaseNoteExpandsion}
+                    className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0"
+                >
                     <SectionTitle title={constants.TITLE.CASE_NOTES} />
-                    <div className="flex flex-row gap-3">
-                        <button
-                            type="button"
-                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none"
+                    {isCaseNotesExpanded && (
+                        <div className="flex flex-row gap-3">
+                            <button
+                                type="button"
+                                onClick={handleClaimantIDSort}
+                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out"
+                            >
+                                <span className="text-xs flex flex-row items-center gap-1">
+                                    <span className="hidden sm:flex">
+                                        Sort by
+                                    </span>
+                                    <span className="text-xs">Claimant ID</span>
+                                </span>
+                                <ClaimantIDSortIcon size={12} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCaseNoteDateSort}
+                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out"
+                            >
+                                <span className="text-xs flex flex-row items-center gap-1">
+                                    <span className="hidden sm:flex">
+                                        Sort by
+                                    </span>
+                                    <span className="text-xs">Note Date</span>
+                                </span>
+                                <DateSortIcon size={12} />
+                            </button>
+                        </div>
+                    )}
+                </div>
+                {isCaseNotesExpanded && (
+                    <div className="px-3">
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            placeholder="Filter the results or search for the content"
+                            className="w-full"
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            slotProps={{
+                                input: {
+                                    startAdornment: (
+                                        <FaSearch
+                                            className={
+                                                isFocused
+                                                    ? 'text-primary mr-2'
+                                                    : 'text-gray-500 mr-2'
+                                            }
+                                        />
+                                    )
+                                }
+                            }}
+                        />
+                    </div>
+                )}
+            </div>
+            {isCaseNotesExpanded && (
+                <>
+                    {caseNotes.length ? (
+                        <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
+                            {caseNotes.map((caseNote, index) => (
+                                <CaseNote key={index} caseNote={caseNote} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto">
+                            <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
+                                No case notes found. Please search using the
+                                claimant ID, start date, and end date to view
+                                the case notes.
+                            </p>
+                        </div>
+                    )}
+                </>
+            )}
+            {isCaseNotesExpanded && (
+                <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
+                    <div className="flex flex-row items-center gap-2">
+                        <p className="text-xs text-dark-gray">Rows per page:</p>
+                        <select
+                            className="text-xs outline-none border-none"
+                            value={noOfRowsPerPage}
+                            onChange={handleChangeNoOfRowsPerPage}
                         >
-                            <span className="text-xs flex flex-row items-center gap-1">
-                                <span className="hidden sm:flex">Sort by</span>
-                                <span className="text-xs">Claimant ID</span>
-                            </span>
-                            <FaArrowDown size={12} />
+                            {noOfRowsPerPages.map((row) => (
+                                <option key={row.value} value={row.value}>
+                                    {row.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex flex-row items-center gap-5">
+                        <p className="text-xs">1 of 10</p>
+                        <button type="button" className="cursor-pointer">
+                            <IoIosArrowBack />
                         </button>
-                        <button
-                            type="button"
-                            className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none"
-                        >
-                            <span className="text-xs flex flex-row items-center gap-1">
-                                <span className="hidden sm:flex">Sort by</span>
-                                <span className="text-xs">Note Date</span>
-                            </span>
-                            <FaArrowUp size={12} />
+                        <button type="button" className="cursor-pointer">
+                            <IoIosArrowForward />
                         </button>
                     </div>
                 </div>
-                <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Filter the results or search for the content"
-                    className="w-full"
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    slotProps={{
-                        input: {
-                            startAdornment: (
-                                <FaSearch
-                                    className={
-                                        isFocused
-                                            ? 'text-primary mr-2'
-                                            : 'text-gray-500 mr-2'
-                                    }
-                                />
-                            )
-                        }
-                    }}
-                />
-            </div>
-            <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
-                {caseNotes.map((caseNote, index) => (
-                    <CaseNote key={index} caseNote={caseNote} />
-                ))}
-            </div>
-            <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
-                <div className="flex flex-row items-center gap-2">
-                    <p className="text-xs text-dark-gray">Rows per page:</p>
-                    <select
-                        className="text-xs outline-none border-none"
-                        value={noOfRowsPerPage}
-                        onChange={handleChangeNoOfRowsPerPage}
-                    >
-                        {noOfRowsPerPages.map((row) => (
-                            <option key={row.value} value={row.value}>
-                                {row.label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="flex flex-row items-center gap-5">
-                    <p className="text-xs">1 of 10</p>
-                    <button type="button" className="cursor-pointer">
-                        <IoIosArrowBack />
-                    </button>
-                    <button type="button" className="cursor-pointer">
-                        <IoIosArrowForward />
-                    </button>
-                </div>
-            </div>
+            )}
         </section>
     )
 }

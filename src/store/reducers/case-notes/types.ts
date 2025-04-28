@@ -1,6 +1,11 @@
 export type CaseNotesInitialState = {
     caseNotes: ICaseNote[]
     noOfRowsPerPage: number
+    isCaseNotesExpanded: boolean
+    sort: {
+        date: 'asc' | 'desc'
+        claimantID: 'asc' | 'desc'
+    }
 }
 
 export type ICaseNote = {

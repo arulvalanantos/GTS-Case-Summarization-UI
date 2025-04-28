@@ -6,7 +6,12 @@ import { CaseNotesInitialState } from './types'
 
 const initialState: CaseNotesInitialState = {
     caseNotes: [],
-    noOfRowsPerPage: 10
+    noOfRowsPerPage: 10,
+    isCaseNotesExpanded: true,
+    sort: {
+        date: 'desc',
+        claimantID: 'desc'
+    }
 }
 
 const caseNotesSlice = createSlice({
@@ -15,12 +20,27 @@ const caseNotesSlice = createSlice({
     reducers: {
         setNoOfRowsPerPage: (state, action) => {
             state.noOfRowsPerPage = action.payload
+        },
+        toggleCaseNotes: (state) => {
+            state.isCaseNotesExpanded = !state.isCaseNotesExpanded
+        },
+        toggleSortDateOrder: (state) => {
+            state.sort.date = state.sort.date === 'asc' ? 'desc' : 'asc'
+        },
+        toggleSortClaimantIDOrder: (state) => {
+            state.sort.claimantID =
+                state.sort.claimantID === 'asc' ? 'desc' : 'asc'
         }
     },
     extraReducers: () => {}
 })
 
-export const { setNoOfRowsPerPage } = caseNotesSlice.actions
+export const {
+    setNoOfRowsPerPage,
+    toggleCaseNotes,
+    toggleSortClaimantIDOrder,
+    toggleSortDateOrder
+} = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes
 

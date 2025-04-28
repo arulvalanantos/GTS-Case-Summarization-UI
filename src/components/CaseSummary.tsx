@@ -8,10 +8,12 @@ import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { summarySelector, toggleSummary } from '@/store/reducers/summary'
 import { showSnackbar } from '@/store/reducers/alert'
+import { caseNotesSelector } from '@/store/reducers/case-notes'
 
 const CaseSummary: React.FC = () => {
     const dispatch = useAppDispatch()
     const { summary, isSummaryExpanded } = useSelector(summarySelector)
+    const { isCaseNotesExpanded } = useSelector(caseNotesSelector)
 
     const handleCopy = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -51,9 +53,13 @@ const CaseSummary: React.FC = () => {
     return (
         <section
             id="case-summary"
-            className={`cursor-pointer flex flex-col gap-3  overflow-auto transition-transform duration-300 ease-in-out  ${
+            className={`cursor-pointer flex flex-col gap-3  overflow-hidden transition-transform duration-300 ease-in-out  ${
                 isSummaryExpanded
-                    ? 'flex-1 min-h[100px] max-h-[250px] border-b-1 border-gray-200'
+                    ? `min-h[100px] ${
+                          isCaseNotesExpanded
+                              ? 'max-h-[200px]'
+                              : 'h-full max-h-full'
+                      } border-b-1 border-gray-200`
                     : 'h-10'
             }`}
         >
@@ -67,24 +73,30 @@ const CaseSummary: React.FC = () => {
                         <button
                             title="Copy Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group"
                             onClick={handleCopy}
                         >
-                            <FaRegClone size={12} />
+                            <FaRegClone
+                                size={12}
+                                className="group-hover:scale-95 transition duration-500 ease-in-out"
+                            />
                         </button>
                         <button
                             onClick={generateSummary}
                             title="Generate Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group"
                         >
-                            <FaArrowRotateLeft size={12} />
+                            <FaArrowRotateLeft
+                                size={12}
+                                className="group-hover:rotate-360 transition duration-500 ease-in-out"
+                            />
                         </button>
                     </div>
                 )}
             </div>
             {isSummaryExpanded && (
-                <div className=" px-3 py-2">
+                <div className="px-3 py-2 h-full overflow-auto">
                     {summary ? (
                         <div>
                             <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
