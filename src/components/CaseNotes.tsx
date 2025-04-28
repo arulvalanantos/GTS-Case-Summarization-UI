@@ -1,10 +1,14 @@
 import React from 'react'
 
+
+import SectionTitle from './Title'
+import constants from '@/common/constants'
+
 const CaseNotes: React.FC = () => {
     return (
         <section id="case-notes" className="flex-4 bg-violet-50 p-2">
             <div>
-                <h2 className="text-md font-bold">Case Notes</h2>
+                <SectionTitle title={constants.TITLE.CASE_NOTES} />
             </div>
         </section>
     )

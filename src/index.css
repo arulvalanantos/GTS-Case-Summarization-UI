@@ -23,7 +23,6 @@ html {
 }
 
 * {
-    box-sizing: border-box;
     @apply font-primary;
 }
 
