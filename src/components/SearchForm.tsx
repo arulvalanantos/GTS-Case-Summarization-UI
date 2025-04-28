@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import TextField from '@mui/material/TextField'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import CircularProgress from '@mui/material/CircularProgress'
+// import CircularProgress from '@mui/material/CircularProgress'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
 import SectionTitle from './Title'
@@ -122,7 +122,9 @@ const SearchForm: React.FC = () => {
                         disabled={false}
                         className="bg-primary disabled:bg-gray disabled:cursor-not-allowed text-white py-2 px-3 rounded text-sm cursor-pointer hover:scale-98 transition-transform duration-200 ease-in-out flex items-center gap-2 justify-center"
                     >
-                        <CircularProgress color="primary" size="12px" />
+                        {/* {true && ( */}
+                            {/* <CircularProgress color="primary" size="12px" /> */}
+                        {/* )} */}
                         <span>Submit</span>
                     </button>
                 </form>

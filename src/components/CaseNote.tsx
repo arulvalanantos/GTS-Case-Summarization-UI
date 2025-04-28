@@ -1,8 +1,21 @@
 import { FaRegClone } from 'react-icons/fa'
 import { BsBoxArrowInUpRight } from 'react-icons/bs'
 
-const CaseNote = () => {
-    const claimId = '1234567890'
+type CaseNoteProps = {
+    claimId: string
+}
+
+const CaseNote: React.FC<CaseNoteProps> = ({ claimId }) => {
+    const handleCopy = () => {
+        navigator.clipboard
+            .writeText(claimId)
+            .then(() => {
+                console.log('Claim ID copied to clipboard')
+            })
+            .catch((error) => {
+                console.error('Failed to copy Claim ID:', error)
+            })
+    }
 
     return (
         <div className="bg-secondary p-2 flex flex-col gap-2 rounded">
@@ -25,6 +38,7 @@ const CaseNote = () => {
                             title="Copy Case Note"
                             aria-label="Copy Case Note"
                             className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
+                            onClick={handleCopy}
                         >
                             <FaRegClone size={12} />
                             <span className="hidden lg:flex">Copy</span>
