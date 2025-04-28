@@ -22,7 +22,8 @@ const constants = {
     },
     ERROR_MESSAGE: {
         FAILED_TO_COPY: 'Failed to copy text: '
-    }
+    },
+    MIN_START_DATE: '2013-10-15',
 }
 
 export default Object.freeze(constants)

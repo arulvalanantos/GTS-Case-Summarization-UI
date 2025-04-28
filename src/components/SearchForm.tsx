@@ -69,7 +69,13 @@ const SearchForm: React.FC = () => {
         if (!claimantIDRef.current) return
 
         claimantIDRef.current?.focus()
-    }, [])
+
+        const today = dayjs()
+        const sixMonthsAgo = today.subtract(6, 'month')
+
+        dispatch(updateCaseNoteStartDate(sixMonthsAgo.toISOString()))
+        dispatch(updateCaseNoteEndDate(today.toISOString()))
+    }, [dispatch])
 
     return (
         <div
@@ -122,13 +128,12 @@ const SearchForm: React.FC = () => {
                         <DatePicker
                             className="w-full bg-white"
                             disabled={isFetchingCaseNotes}
-                            reduceAnimations
                             slots={{
                                 textField: (props) => (
                                     <TextField {...props} size="small" />
                                 )
                             }}
-                            minDate={dayjs('2013-10-15')}
+                            minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
                             enableAccessibleFieldDOMStructure={false}
                             value={dayjs(form.startDate)}
@@ -141,12 +146,12 @@ const SearchForm: React.FC = () => {
                             className="w-full bg-white"
                             disabled={isFetchingCaseNotes}
                             maxDate={dayjs()}
-                            reduceAnimations
                             slots={{
                                 textField: (props) => (
                                     <TextField {...props} size="small" />
                                 )
                             }}
+                            minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
                             enableAccessibleFieldDOMStructure={false}
                             value={dayjs(form.endDate)}
