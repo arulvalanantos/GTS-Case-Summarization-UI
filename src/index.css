@@ -29,6 +29,8 @@ html {
 body {
     width: 100vw;
     height: 100vh;
+    color: var(--color-text-primary);
+    overflow: hidden;
 }
 
 #root {
