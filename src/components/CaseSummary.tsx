@@ -13,7 +13,7 @@ import { caseNotesSelector } from '@/store/reducers/case-notes'
 const CaseSummary: React.FC = () => {
     const dispatch = useAppDispatch()
     const { summary, isSummaryExpanded } = useSelector(summarySelector)
-    const { isCaseNotesExpanded } = useSelector(caseNotesSelector)
+    const { isCaseNotesExpanded, caseNotes } = useSelector(caseNotesSelector)
 
     const handleCopy = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -86,7 +86,8 @@ const CaseSummary: React.FC = () => {
                             onClick={generateSummary}
                             title="Generate Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group"
+                            disabled={!caseNotes.length}
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed"
                         >
                             <FaArrowRotateLeft
                                 size={12}

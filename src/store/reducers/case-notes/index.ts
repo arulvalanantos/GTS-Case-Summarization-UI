@@ -15,6 +15,11 @@ const initialState: CaseNotesInitialState = {
     sort: {
         date: 'desc',
         claimantID: 'desc'
+    },
+    form: {
+        claimantID: '',
+        startDate: null,
+        endDate: null
     }
 }
 
@@ -34,6 +39,21 @@ const caseNotesSlice = createSlice({
         toggleSortClaimantIDOrder: (state) => {
             state.sort.claimantID =
                 state.sort.claimantID === 'asc' ? 'desc' : 'asc'
+        },
+        updateClaimantID: (state, action: PayloadAction<string>) => {
+            state.form.claimantID = action.payload
+        },
+        updateCaseNoteStartDate: (
+            state,
+            action: PayloadAction<string | null>
+        ) => {
+            state.form.startDate = action.payload
+        },
+        updateCaseNoteEndDate: (
+            state,
+            action: PayloadAction<string | null>
+        ) => {
+            state.form.endDate = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -60,7 +80,10 @@ export const {
     setNoOfRowsPerPage,
     toggleCaseNotes,
     toggleSortClaimantIDOrder,
-    toggleSortDateOrder
+    toggleSortDateOrder,
+    updateClaimantID,
+    updateCaseNoteStartDate,
+    updateCaseNoteEndDate
 } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes

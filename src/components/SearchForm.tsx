@@ -3,13 +3,20 @@ import { useSelector } from 'react-redux'
 import TextField from '@mui/material/TextField'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-// import CircularProgress from '@mui/material/CircularProgress'
+import CircularProgress from '@mui/material/CircularProgress'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
 import SectionTitle from './Title'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
+import { numericFieldProps } from '@/common/static'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
+import {
+    caseNotesSelector,
+    updateCaseNoteEndDate,
+    updateCaseNoteStartDate,
+    updateClaimantID
+} from '@/store/reducers/case-notes'
 
 const SearchForm: React.FC = () => {
     const claimantIDRef = useRef<HTMLInputElement | null>(null)
@@ -17,6 +24,7 @@ const SearchForm: React.FC = () => {
     const dispatch = useAppDispatch()
 
     const { isFormExpanded } = useSelector(configSelector)
+    const { form, isFetchingCaseNotes } = useSelector(caseNotesSelector)
 
     const Icon = useMemo(() => {
         return isFormExpanded ? FaAngleDoubleLeft : FaAngleDoubleRight
@@ -30,8 +38,21 @@ const SearchForm: React.FC = () => {
         dispatch(setFormExpanded(!isFormExpanded))
     }
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(updateClaimantID(event.target.value))
+    }
+
+    const onStartDateChange = (value: dayjs.Dayjs | null) => {
+        dispatch(updateCaseNoteStartDate(value ? value.toISOString() : null))
+    }
+
+    const onEndDateChange = (value: dayjs.Dayjs | null) => {
+        dispatch(updateCaseNoteEndDate(value ? value.toISOString() : null))
+    }
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
+        console.log(form)
     }
 
     useEffect(() => {
@@ -75,27 +96,15 @@ const SearchForm: React.FC = () => {
                         </label>
                         <TextField
                             type="number"
+                            disabled={isFetchingCaseNotes}
                             inputRef={claimantIDRef}
                             size="small"
                             placeholder="Enter Claimant ID"
                             className="w-full"
-                            sx={{
-                                // Targeting Webkit browsers like Chrome, Safari, and Edge
-                                '& input::-webkit-outer-spin-button': {
-                                    appearance: 'none',
-                                    margin: 0
-                                },
-                                '& input::-webkit-inner-spin-button': {
-                                    appearance: 'none',
-                                    margin: 0
-                                }
-                            }}
-                            slotProps={{
-                                input: {
-                                    inputMode: 'numeric',
-                                    autoComplete: 'off'
-                                }
-                            }}
+                            sx={numericFieldProps.sx}
+                            slotProps={numericFieldProps.slotProps}
+                            value={form.claimantID}
+                            onChange={handleChange}
                         />
                     </div>
                     <div>
@@ -104,6 +113,7 @@ const SearchForm: React.FC = () => {
                         </label>
                         <DatePicker
                             className="w-full bg-white"
+                            disabled={isFetchingCaseNotes}
                             reduceAnimations
                             slots={{
                                 textField: (props) => (
@@ -113,13 +123,15 @@ const SearchForm: React.FC = () => {
                             minDate={dayjs('2013-10-15')}
                             disableFuture
                             enableAccessibleFieldDOMStructure={false}
+                            value={dayjs(form.startDate)}
+                            onChange={onStartDateChange}
                         />
                     </div>
                     <div>
                         <label className="text-xs select-none">End Date</label>
                         <DatePicker
                             className="w-full bg-white"
-                            disabled={false}
+                            disabled={isFetchingCaseNotes}
                             maxDate={dayjs()}
                             reduceAnimations
                             slots={{
@@ -129,16 +141,21 @@ const SearchForm: React.FC = () => {
                             }}
                             disableFuture
                             enableAccessibleFieldDOMStructure={false}
+                            value={dayjs(form.endDate)}
+                            onChange={onEndDateChange}
                         />
                     </div>
                     <button
                         type="submit"
-                        disabled={false}
+                        disabled={isFetchingCaseNotes || !form.claimantID}
                         className="bg-primary disabled:bg-gray disabled:cursor-not-allowed text-white py-2 px-3 rounded text-sm cursor-pointer hover:scale-98 transition-transform duration-200 ease-in-out flex items-center gap-2 justify-center"
                     >
-                        {/* {true && ( */}
-                        {/* <CircularProgress color="primary" size="12px" /> */}
-                        {/* )} */}
+                        {isFetchingCaseNotes && (
+                            <CircularProgress
+                                sx={{ color: 'inherit' }}
+                                size="12px"
+                            />
+                        )}
                         <span>Submit</span>
                     </button>
                 </form>

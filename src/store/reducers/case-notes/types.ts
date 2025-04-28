@@ -9,6 +9,11 @@ export type CaseNotesInitialState = {
         date: 'asc' | 'desc'
         claimantID: 'asc' | 'desc'
     }
+    form: {
+        claimantID: string
+        startDate: string | null
+        endDate: string | null
+    }
 }
 
 export type ICaseNote = {
