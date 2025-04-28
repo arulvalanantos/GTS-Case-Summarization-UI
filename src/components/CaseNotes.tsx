@@ -143,7 +143,7 @@ const CaseNotes: React.FC = () => {
                         <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto text-primary">
                             {isFetchingCaseNotes ? (
                                 <div className="flex items-center justify-center w-full h-full">
-                                    <CircularProgress color="inherit" />
+                                    <CircularProgress color="inherit" size={16} />
                                 </div>
                             ) : (
                                 <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
