@@ -1,13 +1,11 @@
 const constants = {
     API_CONFIG: {
-        AXIOS_TIMEOUT: 60000, // 1 minute
+        AXIOS_TIMEOUT: 180000, // 3 minutes
         X_REQUEST_HEADER: 'X-Request-ID',
         AXIOS_TIMEOUT_MESSAGE: 'Timeout exceeded',
         AUTHORIZATION: 'Authorization'
     },
-    ENDPOINTS: {
-        
-    },
+    ENDPOINTS: {},
     STORE: {
         CONFIG: 'config',
         SUMMARY: 'summary',

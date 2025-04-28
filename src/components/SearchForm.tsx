@@ -9,7 +9,6 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
-import { numericFieldProps } from '@/common/static'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
 import {
     caseNotesSelector,
@@ -39,7 +38,18 @@ const SearchForm: React.FC = () => {
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateClaimantID(event.target.value))
+        const { value } = event.target
+
+        if (value === '') {
+            dispatch(updateClaimantID(''))
+            return
+        }
+
+        // Strict: Only digits (0-9), max 8 characters
+        const digitOnlyRegex = /^\d{0,8}$/
+        if (!digitOnlyRegex.test(value)) return
+
+        dispatch(updateClaimantID(value))
     }
 
     const onStartDateChange = (value: dayjs.Dayjs | null) => {
@@ -95,14 +105,12 @@ const SearchForm: React.FC = () => {
                             Claimant ID
                         </label>
                         <TextField
-                            type="number"
+                            type="text"
                             disabled={isFetchingCaseNotes}
                             inputRef={claimantIDRef}
                             size="small"
                             placeholder="Enter Claimant ID"
                             className="w-full"
-                            sx={numericFieldProps.sx}
-                            slotProps={numericFieldProps.slotProps}
                             value={form.claimantID}
                             onChange={handleChange}
                         />
