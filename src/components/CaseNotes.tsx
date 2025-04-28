@@ -3,9 +3,9 @@ import { FaSearch } from 'react-icons/fa'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
+import CaseNote from './CaseNote'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
-import CaseNote from './CaseNote'
 
 const CaseNotes: React.FC = () => {
     return (
@@ -33,7 +33,7 @@ const CaseNotes: React.FC = () => {
                         >
                             <span className="text-xs flex flex-row items-center gap-1">
                                 <span className="hidden sm:flex">Sort by</span>
-                                <span>Note Date</span>
+                                <span className="text-xs">Note Date</span>
                             </span>
                             <FaArrowUp size={12} />
                         </button>
@@ -58,7 +58,7 @@ const CaseNotes: React.FC = () => {
             <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
                 <div className="flex flex-row items-center gap-2">
                     <p className="text-xs text-dark-gray">Rows per page:</p>
-                    <select className='text-xs'>
+                    <select className="text-xs outline-none border-none">
                         <option value="5">10</option>
                         <option value="10">25</option>
                         <option value="20">50</option>

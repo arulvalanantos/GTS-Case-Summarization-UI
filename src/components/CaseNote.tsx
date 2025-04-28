@@ -24,7 +24,7 @@ const CaseNote = () => {
                             type="button"
                             title="Copy Case Note"
                             aria-label="Copy Case Note"
-                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-sm flex items-center gap-2 cursor-pointer"
+                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
                         >
                             <FaRegClone size={12} />
                             <span className="hidden lg:flex">Copy</span>
@@ -33,7 +33,7 @@ const CaseNote = () => {
                             type="button"
                             title="View Case Note"
                             aria-label="View Case Note"
-                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-sm flex items-center gap-2 cursor-pointer"
+                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
                         >
                             <BsBoxArrowInUpRight size={12} />
                             <span className="hidden lg:flex">View</span>

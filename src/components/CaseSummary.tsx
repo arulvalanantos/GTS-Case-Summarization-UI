@@ -18,16 +18,16 @@ const CaseSummary: React.FC = () => {
                     <button
                         title="Copy Summary"
                         type="button"
-                        className="bg-primary w-5 h-5 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
+                        className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
                     >
-                        <FaRegClone size={8} />
+                        <FaRegClone size={12} />
                     </button>
                     <button
                         title="Regenerate Summary"
                         type="button"
-                        className="bg-primary w-5 h-5 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
+                        className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer"
                     >
-                        <FaArrowRotateLeft size={8} />
+                        <FaArrowRotateLeft size={12} />
                     </button>
                 </div>
             </div>
