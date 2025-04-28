@@ -2,17 +2,20 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { FaRegClone } from 'react-icons/fa'
 import { FaArrowRotateLeft } from 'react-icons/fa6'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
-import { summarySelector, toggleSummary } from '@/store/reducers/summary'
 import { showSnackbar } from '@/store/reducers/alert'
+import { fetchSummary } from '@/store/reducers/summary/thunk'
 import { caseNotesSelector } from '@/store/reducers/case-notes'
+import { summarySelector, toggleSummary } from '@/store/reducers/summary'
 
 const CaseSummary: React.FC = () => {
     const dispatch = useAppDispatch()
-    const { summary, isSummaryExpanded } = useSelector(summarySelector)
+    const { summary, isSummaryExpanded, isFetchingSummary } =
+        useSelector(summarySelector)
     const { isCaseNotesExpanded, caseNotes } = useSelector(caseNotesSelector)
 
     const handleCopy = (event: React.MouseEvent) => {
@@ -33,6 +36,8 @@ const CaseSummary: React.FC = () => {
 
     const generateSummary = (event: React.MouseEvent) => {
         event.stopPropagation()
+
+        dispatch(fetchSummary())
     }
 
     const toggleExpand = () => {
@@ -89,10 +94,15 @@ const CaseSummary: React.FC = () => {
             {isSummaryExpanded && (
                 <div
                     className={`px-3 py-2 h-full overflow-auto ${
-                        !summary ? 'my-5' : ''
+                        !summary || isFetchingSummary ? 'my-5' : ''
                     }`}
                 >
-                    {summary && (
+                    {isFetchingSummary && (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <CircularProgress size={16} />
+                        </div>
+                    )}
+                    {summary && !isFetchingSummary && (
                         <div>
                             <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
                                 {summary}
