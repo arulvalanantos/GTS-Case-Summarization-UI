@@ -9,6 +9,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 import SectionTitle from './Title'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
+import { showSnackbar } from '@/store/reducers/alert'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
 import {
     caseNotesSelector,
@@ -62,6 +63,32 @@ const SearchForm: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
+
+        const start = dayjs(form.startDate)
+        const end = dayjs(form.endDate)
+
+        if (end.isBefore(start)) {
+            const message = 'End date cannot be before start date.'
+            dispatch(showSnackbar(message))
+            return
+        }
+
+        const diffInYears = end.diff(start, 'year', true)
+        if (diffInYears > 1) {
+            const message =
+                'The gap between Start date and End date must not exceed 1 year.'
+
+            dispatch(showSnackbar(message))
+            return
+        }
+
+        const diffInDays = end.diff(start, 'day')
+        if (diffInDays < 0) {
+            const message = 'Invalid date range selected.'
+            dispatch(showSnackbar(message))
+            return
+        }
+
         console.log(form)
     }
 

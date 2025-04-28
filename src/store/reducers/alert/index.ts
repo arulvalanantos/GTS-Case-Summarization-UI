@@ -1,26 +1,20 @@
 import constants from '@/common/constants'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface AlertState {
-    open: boolean
-    message: string
-    severity: 'success' | 'error'
-}
+import { AlertInitialState } from './types'
 
-const initialState: AlertState = {
+const initialState: AlertInitialState = {
     open: false,
-    message: '',
-    severity: 'success'
+    message: ''
 }
 
 const alertSlice = createSlice({
     name: constants.STORE.ALERT,
     initialState,
     reducers: {
-        showSnackbar: (state, action: PayloadAction<AlertState>) => {
+        showSnackbar: (state, action: PayloadAction<string>) => {
             state.open = true
-            state.message = action.payload.message
-            state.severity = action.payload.severity
+            state.message = action.payload
         },
         closeSnackbar: (state) => {
             state.open = false
