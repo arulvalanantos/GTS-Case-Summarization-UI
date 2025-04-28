@@ -47,7 +47,7 @@ const CaseSummary: React.FC = () => {
     return (
         <section
             id="case-summary"
-            className={`flex flex-col gap-3  overflow-hidden transition-transform duration-300 ease-in-out  ${
+            className={`flex flex-col overflow-hidden transition-transform duration-300 ease-in-out  ${
                 isSummaryExpanded
                     ? `min-h[100px] ${
                           isCaseNotesExpanded
