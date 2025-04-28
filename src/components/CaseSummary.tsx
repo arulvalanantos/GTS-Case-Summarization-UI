@@ -96,7 +96,11 @@ const CaseSummary: React.FC = () => {
                 )}
             </div>
             {isSummaryExpanded && (
-                <div className="px-3 py-2 h-full overflow-auto">
+                <div
+                    className={`px-3 py-2 h-full overflow-auto ${
+                        !summary ? 'my-5' : ''
+                    }`}
+                >
                     {summary ? (
                         <div>
                             <p className="bg-secondary p-2 rounded font-normal text-sm select-none">

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import TextField from '@mui/material/TextField'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 // import CircularProgress from '@mui/material/CircularProgress'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
@@ -12,6 +12,8 @@ import { useAppDispatch } from '@/store/hooks'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
 
 const SearchForm: React.FC = () => {
+    const claimantIDRef = useRef<HTMLInputElement | null>(null)
+
     const dispatch = useAppDispatch()
 
     const { isFormExpanded } = useSelector(configSelector)
@@ -31,6 +33,12 @@ const SearchForm: React.FC = () => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
     }
+
+    useEffect(() => {
+        if (!claimantIDRef.current) return
+
+        claimantIDRef.current?.focus()
+    }, [])
 
     return (
         <div
@@ -67,6 +75,7 @@ const SearchForm: React.FC = () => {
                         </label>
                         <TextField
                             type="number"
+                            inputRef={claimantIDRef}
                             size="small"
                             placeholder="Enter Claimant ID"
                             className="w-full"

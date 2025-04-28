@@ -1,4 +1,5 @@
 export type CaseNotesInitialState = {
+    isFetchingCaseNotes: boolean
     caseNotes: ICaseNote[]
     noOfRowsPerPage: number
     isCaseNotesExpanded: boolean
