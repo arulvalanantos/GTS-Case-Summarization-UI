@@ -11,6 +11,30 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: "'Roboto', sans-serif"
+    },
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    fontSize: '12px',
+                    background: 'white'
+                }
+            }
+        },
+        MuiCircularProgress: {
+            styleOverrides: {
+                root: {
+                    color: '#fafafa'
+                }
+            }
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    fontSize: '1rem'
+                }
+            }
+        }
     }
 })
 

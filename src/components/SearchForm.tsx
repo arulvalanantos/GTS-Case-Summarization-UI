@@ -1,13 +1,15 @@
+import dayjs from 'dayjs'
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { DatePicker } from '@mui/x-date-pickers'
+import TextField from '@mui/material/TextField'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import CircularProgress from '@mui/material/CircularProgress'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
 import SectionTitle from './Title'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
-import dayjs from 'dayjs'
 
 const SearchForm: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -32,7 +34,9 @@ const SearchForm: React.FC = () => {
 
     return (
         <div
-            className={`content-box ${width} max-w-40 min-w-9 bg-secondary p-2 overflow-hidden w-full`}
+            className={`content-box ${width} ${
+                isFormExpanded ? 'max-w-40 min-w-40' : 'max-w-9 min-w-9'
+            } bg-secondary p-2 overflow-hidden w-full`}
         >
             <div
                 className={`flex flex-row items-center ${
@@ -58,27 +62,67 @@ const SearchForm: React.FC = () => {
                 >
                     <div>
                         <label className="text-xs">Claimant ID</label>
-                        <input
-                            type="text"
+                        <TextField
+                            type="number"
+                            size="small"
                             placeholder="Enter Claimant ID"
-                            className="w-full border border-gray focus:border-primary px-2 py-1 rounded bg-white text-xs"
+                            className="w-full"
+                            sx={{
+                                // Targeting Webkit browsers like Chrome, Safari, and Edge
+                                '& input::-webkit-outer-spin-button': {
+                                    appearance: 'none',
+                                    margin: 0
+                                },
+                                '& input::-webkit-inner-spin-button': {
+                                    appearance: 'none',
+                                    margin: 0
+                                }
+                            }}
+                            slotProps={{
+                                input: {
+                                    inputMode: 'numeric',
+                                    autoComplete: 'off'
+                                }
+                            }}
                         />
                     </div>
                     <div>
                         <label className="text-xs">Start Date</label>
-                        <DatePicker className="w-full bg-white border-primary text-xs" />
+                        <DatePicker
+                            className="w-full bg-white"
+                            reduceAnimations
+                            slots={{
+                                textField: (props) => (
+                                    <TextField {...props} size="small" />
+                                )
+                            }}
+                            minDate={dayjs('2013-10-15')}
+                            disableFuture
+                            enableAccessibleFieldDOMStructure={false}
+                        />
                     </div>
                     <div>
                         <label className="text-xs">End Date</label>
                         <DatePicker
-                            className="w-full bg-white border-primary px-2 py-1 rounded text-xs"
+                            className="w-full bg-white"
+                            disabled={false}
                             maxDate={dayjs()}
+                            reduceAnimations
+                            slots={{
+                                textField: (props) => (
+                                    <TextField {...props} size="small" />
+                                )
+                            }}
+                            disableFuture
+                            enableAccessibleFieldDOMStructure={false}
                         />
                     </div>
                     <button
                         type="submit"
-                        className="bg-primary text-white py-2 px-3 rounded text-sm"
+                        disabled={false}
+                        className="bg-primary disabled:bg-gray disabled:cursor-not-allowed text-white py-2 px-3 rounded text-sm cursor-pointer hover:scale-98 transition-transform duration-200 ease-in-out flex items-center gap-2 justify-center"
                     >
+                        <CircularProgress color="primary" size="12px" />
                         <span>Submit</span>
                     </button>
                 </form>
