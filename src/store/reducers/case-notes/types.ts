@@ -2,6 +2,8 @@ export type CaseNotesInitialState = {
     isFetchingCaseNotes: boolean
     caseNotes: ICaseNote[]
     noOfRowsPerPage: number
+    currentPage: number
+    totalPages: number
     isCaseNotesExpanded: boolean
     sort: {
         date: 'asc' | 'desc'

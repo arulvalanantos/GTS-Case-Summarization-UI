@@ -53,7 +53,7 @@ const CaseSummary: React.FC = () => {
     return (
         <section
             id="case-summary"
-            className={`cursor-pointer flex flex-col gap-3  overflow-hidden transition-transform duration-300 ease-in-out  ${
+            className={`flex flex-col gap-3  overflow-hidden transition-transform duration-300 ease-in-out  ${
                 isSummaryExpanded
                     ? `min-h[100px] ${
                           isCaseNotesExpanded
@@ -64,7 +64,7 @@ const CaseSummary: React.FC = () => {
             }`}
         >
             <div
-                className="flex flex-row items-center justify-between bg-gray-100 px-3 py-2"
+                className="cursor-pointer flex flex-row items-center justify-between bg-gray-100 px-3 py-2"
                 onClick={toggleExpand}
             >
                 <SectionTitle title={constants.TITLE.CASE_SUMMARY} />
@@ -73,8 +73,9 @@ const CaseSummary: React.FC = () => {
                         <button
                             title="Copy Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group"
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed"
                             onClick={handleCopy}
+                            disabled={!summary}
                         >
                             <FaRegClone
                                 size={12}
@@ -101,17 +102,12 @@ const CaseSummary: React.FC = () => {
                         !summary ? 'my-5' : ''
                     }`}
                 >
-                    {summary ? (
+                    {summary && (
                         <div>
                             <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
                                 {summary}
                             </p>
                         </div>
-                    ) : (
-                        <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
-                            No summary available. Please generate a summary to
-                            view it here.
-                        </p>
                     )}
                 </div>
             )}

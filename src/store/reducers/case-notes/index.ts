@@ -9,6 +9,8 @@ const initialState: CaseNotesInitialState = {
     isFetchingCaseNotes: false,
     caseNotes: [],
     noOfRowsPerPage: 10,
+    currentPage: 0,
+    totalPages: 0,
     isCaseNotesExpanded: true,
     sort: {
         date: 'desc',

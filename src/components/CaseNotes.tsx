@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import TextField from '@mui/material/TextField'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
+import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 
 import CaseNote from './CaseNote'
@@ -27,6 +28,9 @@ const CaseNotes: React.FC = () => {
         caseNotes,
         noOfRowsPerPage,
         isCaseNotesExpanded,
+        currentPage,
+        totalPages,
+        isFetchingCaseNotes,
         sort: { date: dateSort, claimantID: claimantIDSort }
     } = useSelector(caseNotesSelector)
 
@@ -65,7 +69,7 @@ const CaseNotes: React.FC = () => {
             <div className="flex flex-col gap-3 flex-none">
                 <div
                     onClick={handleCaseNoteExpandsion}
-                    className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0"
+                    className="cursor-pointer bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0"
                 >
                     <SectionTitle title={constants.TITLE.CASE_NOTES} />
                     {isCaseNotesExpanded && (
@@ -73,7 +77,8 @@ const CaseNotes: React.FC = () => {
                             <button
                                 type="button"
                                 onClick={handleClaimantIDSort}
-                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out"
+                                disabled={!caseNotes.length}
+                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
                             >
                                 <span className="text-xs flex flex-row items-center gap-1">
                                     <span className="hidden sm:flex">
@@ -86,7 +91,8 @@ const CaseNotes: React.FC = () => {
                             <button
                                 type="button"
                                 onClick={handleCaseNoteDateSort}
-                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out"
+                                disabled={!caseNotes.length}
+                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
                             >
                                 <span className="text-xs flex flex-row items-center gap-1">
                                     <span className="hidden sm:flex">
@@ -127,24 +133,28 @@ const CaseNotes: React.FC = () => {
             </div>
             {isCaseNotesExpanded && (
                 <>
-                    {caseNotes.length ? (
+                    {caseNotes.length && isFetchingCaseNotes ? (
                         <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
                             {caseNotes.map((caseNote, index) => (
                                 <CaseNote key={index} caseNote={caseNote} />
                             ))}
                         </div>
                     ) : (
-                        <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto">
-                            <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
-                                No case notes found. Please search using the
-                                claimant ID, start date, and end date to view
-                                the case notes.
-                            </p>
+                        <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto text-primary">
+                            {isFetchingCaseNotes ? (
+                                <div className="flex items-center justify-center w-full h-full">
+                                    <CircularProgress color="inherit" />
+                                </div>
+                            ) : (
+                                <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
+                                    No case notes found
+                                </p>
+                            )}
                         </div>
                     )}
                 </>
             )}
-            {isCaseNotesExpanded && (
+            {isCaseNotesExpanded && !!caseNotes.length && (
                 <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
                     <div className="flex flex-row items-center gap-2">
                         <p className="text-xs text-dark-gray">Rows per page:</p>
@@ -161,11 +171,23 @@ const CaseNotes: React.FC = () => {
                         </select>
                     </div>
                     <div className="flex flex-row items-center gap-5">
-                        <p className="text-xs">1 of 10</p>
-                        <button type="button" className="cursor-pointer">
+                        <p className="text-xs">
+                            {currentPage} of {totalPages}
+                        </p>
+                        <button
+                            type="button"
+                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
+                            disabled={currentPage < 2}
+                        >
                             <IoIosArrowBack />
                         </button>
-                        <button type="button" className="cursor-pointer">
+                        <button
+                            type="button"
+                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
+                            disabled={
+                                currentPage >= totalPages || totalPages === 0
+                            }
+                        >
                             <IoIosArrowForward />
                         </button>
                     </div>

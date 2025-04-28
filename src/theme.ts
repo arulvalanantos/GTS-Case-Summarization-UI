@@ -24,7 +24,7 @@ const theme = createTheme({
         MuiCircularProgress: {
             styleOverrides: {
                 root: {
-                    color: '#fafafa'
+                    color: '#4965cd',
                 }
             }
         },
