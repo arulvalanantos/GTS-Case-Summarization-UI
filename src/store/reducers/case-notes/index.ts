@@ -54,6 +54,13 @@ const caseNotesSlice = createSlice({
             action: PayloadAction<string | null>
         ) => {
             state.form.endDate = action.payload
+        },
+        updateCaseNotes: (state, action: PayloadAction<ICaseNote[]>) => {
+            state.caseNotes = action.payload
+            state.currentPage = 1
+            state.totalPages = Math.ceil(
+                action.payload.length / state.noOfRowsPerPage
+            )
         }
     },
     extraReducers: (builder) => {
@@ -83,7 +90,8 @@ export const {
     toggleSortDateOrder,
     updateClaimantID,
     updateCaseNoteStartDate,
-    updateCaseNoteEndDate
+    updateCaseNoteEndDate,
+    updateCaseNotes
 } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes

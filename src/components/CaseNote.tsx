@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import React from 'react'
 import { FaRegClone } from 'react-icons/fa'
 import { BsBoxArrowInUpRight } from 'react-icons/bs'
@@ -25,7 +26,9 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                 dispatch(showSnackbar(constants.MESSAGE.COPIED))
             })
             .catch((error) => {
-                dispatch(showSnackbar(constants.ERROR_MESSAGE.FAILED_TO_COPY + error))
+                dispatch(
+                    showSnackbar(constants.ERROR_MESSAGE.FAILED_TO_COPY + error)
+                )
             })
     }
 
@@ -39,7 +42,13 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                         </h2>
                         <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
                             <p className="text-primary ">
-                                {caseNote.Created_Date}
+                                {
+                                    <p className="text-primary">
+                                        {dayjs(caseNote.Created_Date).format(
+                                            'MM-DD-YYYY'
+                                        ) || ''}
+                                    </p>
+                                }
                             </p>
                             {isRedacted && (
                                 <p className="bg-primary text-white px-2 rounded">

@@ -133,7 +133,7 @@ const CaseNotes: React.FC = () => {
             </div>
             {isCaseNotesExpanded && (
                 <>
-                    {caseNotes.length && isFetchingCaseNotes ? (
+                    {caseNotes.length && !isFetchingCaseNotes ? (
                         <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
                             {caseNotes.map((caseNote, index) => (
                                 <CaseNote key={index} caseNote={caseNote} />
