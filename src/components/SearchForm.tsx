@@ -36,7 +36,7 @@ const SearchForm: React.FC = () => {
         <div
             className={`content-box ${width} ${
                 isFormExpanded ? 'max-w-40 min-w-40' : 'max-w-9 min-w-9'
-            } bg-secondary p-2 overflow-hidden w-full`}
+            } bg-secondary p-2 overflow-hidden w-full h-full overflow-y-auto`}
         >
             <div
                 className={`flex flex-row items-center ${
@@ -123,7 +123,7 @@ const SearchForm: React.FC = () => {
                         className="bg-primary disabled:bg-gray disabled:cursor-not-allowed text-white py-2 px-3 rounded text-sm cursor-pointer hover:scale-98 transition-transform duration-200 ease-in-out flex items-center gap-2 justify-center"
                     >
                         {/* {true && ( */}
-                            {/* <CircularProgress color="primary" size="12px" /> */}
+                        {/* <CircularProgress color="primary" size="12px" /> */}
                         {/* )} */}
                         <span>Submit</span>
                     </button>
