@@ -5,6 +5,7 @@ import { IoIosClose } from 'react-icons/io'
 import Snackbar from '@mui/material/Snackbar'
 
 import './App.css'
+import constants from './common/constants'
 import CaseNotes from './components/CaseNotes'
 import { useAppDispatch } from './store/hooks'
 import SearchForm from './components/SearchForm'
@@ -12,7 +13,11 @@ import CaseSummary from './components/CaseSummary'
 import CaseNoteView from './components/CaseNoteView'
 import { ICaseNote } from './store/reducers/case-notes/types'
 import { alertSelector, closeSnackbar } from './store/reducers/alert'
-import { caseNotesSelector, updateCaseNotes } from './store/reducers/case-notes'
+import {
+    caseNotesSelector,
+    setNoOfRowsPerPage,
+    updateCaseNotes
+} from './store/reducers/case-notes'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -57,6 +62,15 @@ const App: React.FC = () => {
     useEffect(() => {
         const caseNotes = generateCaseNotes()
         dispatch(updateCaseNotes(caseNotes))
+    }, [dispatch])
+
+    useEffect(() => {
+        const savedRowsPerPage = localStorage.getItem(
+            constants.LOCAL_STORAGE.ROWS_PER_PAGE
+        )
+        if (savedRowsPerPage) {
+            dispatch(setNoOfRowsPerPage(Number(savedRowsPerPage)))
+        }
     }, [dispatch])
 
     return (

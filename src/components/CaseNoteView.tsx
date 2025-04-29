@@ -24,7 +24,9 @@ const CaseNoteView: React.FC = () => {
         useSelector(caseNotesSelector)
 
     const [fontSize, setFontSize] = React.useState<FontSize>(() => {
-        const saved = localStorage.getItem('caseNoteFontSize')
+        const saved = localStorage.getItem(
+            constants.LOCAL_STORAGE.CASE_NOTE_FONT_SIZE
+        )
         if (allowedFontSizes.includes(saved as FontSize)) {
             return saved as FontSize
         }
@@ -52,7 +54,10 @@ const CaseNoteView: React.FC = () => {
                         return 'text-xl'
                 }
             })()
-            localStorage.setItem('caseNoteFontSize', next)
+            localStorage.setItem(
+                constants.LOCAL_STORAGE.CASE_NOTE_FONT_SIZE,
+                next
+            )
             return next
         })
     }
@@ -73,7 +78,10 @@ const CaseNoteView: React.FC = () => {
                         return 'text-xs'
                 }
             })()
-            localStorage.setItem('caseNoteFontSize', next)
+            localStorage.setItem(
+                constants.LOCAL_STORAGE.CASE_NOTE_FONT_SIZE,
+                next
+            )
             return next
         })
     }

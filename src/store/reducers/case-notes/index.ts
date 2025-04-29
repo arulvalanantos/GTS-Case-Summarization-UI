@@ -8,6 +8,7 @@ import { CaseNotesInitialState, ICaseNote } from './types'
 const initialState: CaseNotesInitialState = {
     isFetchingCaseNotes: false,
     caseNotes: [],
+    searchText: '',
     noOfRowsPerPage: 10,
     currentPage: 1,
     totalPages: 0,
@@ -85,6 +86,10 @@ const caseNotesSlice = createSlice({
         clearViewMode: (state) => {
             state.isViewMode = false
             state.viewCaseNoteID = ''
+        },
+        updateSearchText: (state, action: PayloadAction<string>) => { 
+            state.searchText = action.payload
+            state.currentPage = 1
         }
     },
     extraReducers: (builder) => {
@@ -119,7 +124,8 @@ export const {
     previousPage,
     nextPage,
     setViewMode,
-    clearViewMode
+    clearViewMode,
+    updateSearchText
 } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes

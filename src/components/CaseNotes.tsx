@@ -19,7 +19,8 @@ import {
     setNoOfRowsPerPage,
     toggleCaseNotes,
     toggleSortClaimantIDOrder,
-    toggleSortDateOrder
+    toggleSortDateOrder,
+    updateSearchText
 } from '@/store/reducers/case-notes'
 
 const CaseNotes: React.FC = () => {
@@ -30,8 +31,8 @@ const CaseNotes: React.FC = () => {
         noOfRowsPerPage,
         isCaseNotesExpanded,
         currentPage,
-        totalPages,
         isFetchingCaseNotes,
+        searchText,
         sort: { date: dateSort, claimantID: claimantIDSort }
     } = useSelector(caseNotesSelector)
 
@@ -47,11 +48,25 @@ const CaseNotes: React.FC = () => {
         return claimantIDSort === 'asc' ? FaArrowUp : FaArrowDown
     }, [claimantIDSort])
 
+    const filteredCaseNotes = useMemo(() => {
+        return [...caseNotes].filter(
+            (note) =>
+                note.Claim_ID.toLowerCase().includes(
+                    searchText.toLowerCase()
+                ) ||
+                note.Message?.toLowerCase()?.includes(searchText.toLowerCase())
+        )
+    }, [caseNotes, searchText])
+
+    const filteredTotalPages = useMemo(() => {
+        return Math.ceil(filteredCaseNotes.length / noOfRowsPerPage)
+    }, [filteredCaseNotes, noOfRowsPerPage])
+
     const sortedAndPaginatedNotes = useMemo(() => {
         const claimantOrder = claimantIDSort === 'asc' ? 1 : -1
         const dateOrder = dateSort === 'asc' ? 1 : -1
 
-        return [...caseNotes]
+        return [...filteredCaseNotes]
             .sort((a, b) => {
                 const aClaimId = Number(a.Claim_ID)
                 const bClaimId = Number(b.Claim_ID)
@@ -75,7 +90,13 @@ const CaseNotes: React.FC = () => {
                 (currentPage - 1) * noOfRowsPerPage,
                 currentPage * noOfRowsPerPage
             )
-    }, [caseNotes, noOfRowsPerPage, currentPage, dateSort, claimantIDSort])
+    }, [
+        filteredCaseNotes,
+        noOfRowsPerPage,
+        currentPage,
+        dateSort,
+        claimantIDSort
+    ])
 
     const handleChangeNoOfRowsPerPage = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -88,6 +109,10 @@ const CaseNotes: React.FC = () => {
         if (isNaN(num)) return
 
         dispatch(setNoOfRowsPerPage(num))
+        localStorage.setItem(
+            constants.LOCAL_STORAGE.ROWS_PER_PAGE,
+            num.toString()
+        )
     }
 
     const handleCaseNoteExpandsion = () => {
@@ -109,6 +134,11 @@ const CaseNotes: React.FC = () => {
     }
     const goToNextPage = () => {
         dispatch(nextPage())
+    }
+
+    const onSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value
+        dispatch(updateSearchText(value))
     }
 
     useEffect(() => {
@@ -166,6 +196,8 @@ const CaseNotes: React.FC = () => {
                 {isCaseNotesExpanded && (
                     <div className="px-3">
                         <TextField
+                            value={searchText}
+                            onChange={onSearchTextChange}
                             variant="outlined"
                             size="small"
                             placeholder="Filter the results or search for the content"
@@ -218,7 +250,7 @@ const CaseNotes: React.FC = () => {
                     )}
                 </>
             )}
-            {isCaseNotesExpanded && !!caseNotes.length && (
+            {isCaseNotesExpanded && !!filteredCaseNotes.length && (
                 <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
                     <div className="flex flex-row items-center gap-2">
                         <p className="text-xs text-dark-gray">Rows per page:</p>
@@ -235,8 +267,8 @@ const CaseNotes: React.FC = () => {
                         </select>
                     </div>
                     <div className="flex flex-row items-center gap-5">
-                        <p className="text-xs">
-                            {currentPage} of {totalPages}
+                        <p className="text-xs select-none">
+                            {currentPage} of {filteredTotalPages}
                         </p>
                         <button
                             type="button"
@@ -250,7 +282,8 @@ const CaseNotes: React.FC = () => {
                             type="button"
                             className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
                             disabled={
-                                currentPage >= totalPages || totalPages === 0
+                                currentPage >= filteredTotalPages ||
+                                filteredTotalPages === 0
                             }
                             onClick={goToNextPage}
                         >

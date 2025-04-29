@@ -1,4 +1,8 @@
 const constants = {
+    LOCAL_STORAGE: {
+        ROWS_PER_PAGE: 'rows_per_page',
+        CASE_NOTE_FONT_SIZE: 'case_note_font_size',
+    },
     API_CONFIG: {
         AXIOS_TIMEOUT: 180000, // 3 minutes
         X_REQUEST_HEADER: 'X-Request-ID',

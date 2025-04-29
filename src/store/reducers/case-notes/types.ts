@@ -1,6 +1,7 @@
 export type CaseNotesInitialState = {
     isFetchingCaseNotes: boolean
     caseNotes: ICaseNote[]
+    searchText: string
     noOfRowsPerPage: number
     currentPage: number
     totalPages: number
