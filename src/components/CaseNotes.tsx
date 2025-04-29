@@ -7,6 +7,7 @@ import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
 import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { MdOutlineDateRange, MdOutlineNumbers } from 'react-icons/md'
 
 import CaseNote from './CaseNote'
 import SectionTitle from './SectionTitle'
@@ -179,28 +180,32 @@ const CaseNotes: React.FC = () => {
                                 type="button"
                                 onClick={handleClaimantIDSort}
                                 disabled={!caseNotes.length}
-                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
+                                title="Sort by Claimant ID"
+                                className="bg-primary text-white px-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
                             >
-                                <span className="text-xs flex flex-row items-center gap-1">
-                                    <span className="hidden sm:flex">
-                                        Sort by
-                                    </span>
-                                    <span className="text-xs">Claimant ID</span>
+                                <span className="text-xs hidden sm:flex flex-row items-center gap-1">
+                                    Sort by Claimant ID
                                 </span>
+                                <MdOutlineNumbers
+                                    size={16}
+                                    className="flex sm:hidden"
+                                />
                                 <ClaimantIDSortIcon size={12} />
                             </button>
                             <button
                                 type="button"
                                 onClick={handleCaseNoteDateSort}
                                 disabled={!caseNotes.length}
-                                className="bg-primary text-white py-2 px-3 text-sm rounded flex flex-row items-center gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
+                                title="Sort by Note Date"
+                                className="bg-primary text-white p-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
                             >
-                                <span className="text-xs flex flex-row items-center gap-1">
-                                    <span className="hidden sm:flex">
-                                        Sort by
-                                    </span>
-                                    <span className="text-xs">Note Date</span>
+                                <span className="hidden sm:flex text-xs flex-row items-center gap-1">
+                                    Sort By Note Date
                                 </span>
+                                <MdOutlineDateRange
+                                    size={16}
+                                    className="flex sm:hidden"
+                                />
                                 <DateSortIcon size={12} />
                             </button>
                         </div>
@@ -264,24 +269,26 @@ const CaseNotes: React.FC = () => {
                 </>
             )}
             {isCaseNotesExpanded && !!filteredCaseNotes.length && (
-                <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-7 text-sm px-3 flex-none">
+                <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-2 sm:gap-7 text-sm px-3 flex-none">
                     {!!searchText && (
                         <div className="flex flex-row items-center gap-2">
-                            <p className="text-xs text-dark-gray">
+                            <p className="text-[8px] sm:text-xs text-dark-gray">
                                 Total Results:
                             </p>
-                            <p className="text-xs text-dark-gray">
+                            <p className="text-[8px] sm:text-xs text-dark-gray">
                                 {filteredCaseNotes.length}
                             </p>
                         </div>
                     )}
                     <div className="flex flex-row items-center gap-2">
-                        <p className="text-xs text-dark-gray">Rows per page:</p>
+                        <p className="text-[8px] sm:text-xs text-dark-gray">
+                            Rows per page:
+                        </p>
                         <select
                             id="rows-per-page"
                             name="rows-per-page"
                             disabled={isFetchingCaseNotes}
-                            className="text-xs outline-none border-none"
+                            className="text-[8px] sm:text-xs outline-none border-none"
                             value={noOfRowsPerPage}
                             onChange={handleChangeNoOfRowsPerPage}
                         >
@@ -292,8 +299,8 @@ const CaseNotes: React.FC = () => {
                             ))}
                         </select>
                     </div>
-                    <div className="flex flex-row items-center gap-5">
-                        <p className="text-xs select-none">
+                    <div className="flex flex-row items-center gap-2 sm:gap-5">
+                        <p className="text-[8px] sm:text-xs select-none">
                             {currentPage} of {filteredTotalPages}
                         </p>
                         <button
@@ -304,7 +311,7 @@ const CaseNotes: React.FC = () => {
                             }
                             onClick={goToPreviousPage}
                         >
-                            <IoIosArrowBack />
+                            <IoIosArrowBack className="text-[8px] sm:text-base" />
                         </button>
                         <button
                             type="button"
@@ -315,7 +322,7 @@ const CaseNotes: React.FC = () => {
                             }
                             onClick={goToNextPage}
                         >
-                            <IoIosArrowForward />
+                            <IoIosArrowForward className="text-[8px] sm:text-base" />
                         </button>
                     </div>
                 </div>
