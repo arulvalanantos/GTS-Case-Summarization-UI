@@ -3,10 +3,19 @@ import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import { IoMdClose } from 'react-icons/io'
 
-import { useAppDispatch } from '@/store/hooks'
-import { caseNotesSelector, clearViewMode } from '@/store/reducers/case-notes'
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
+import { useAppDispatch } from '@/store/hooks'
+import { caseNotesSelector, clearViewMode } from '@/store/reducers/case-notes'
+
+const allowedFontSizes = [
+    'text-xs',
+    'text-sm',
+    'text-base',
+    'text-lg',
+    'text-xl'
+] as const
+type FontSize = (typeof allowedFontSizes)[number]
 
 const CaseNoteView: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -14,13 +23,60 @@ const CaseNoteView: React.FC = () => {
     const { caseNotes, viewCaseNoteID, isCaseNotesExpanded } =
         useSelector(caseNotesSelector)
 
+    const [fontSize, setFontSize] = React.useState<FontSize>(() => {
+        const saved = localStorage.getItem('caseNoteFontSize')
+        if (allowedFontSizes.includes(saved as FontSize)) {
+            return saved as FontSize
+        }
+        return 'text-sm'
+    })
+
     if (!viewCaseNoteID) return null
 
     const caseNote = caseNotes.find((note) => note.Claim_ID === viewCaseNoteID)
     const isRedacted = caseNote?.Redacted === 'Yes'
 
-    const increaseFontSize = () => {}
-    const decreaseFontSize = () => {}
+    const increaseFontSize = () => {
+        setFontSize((prev) => {
+            const next = (() => {
+                switch (prev) {
+                    case 'text-xs':
+                        return 'text-sm'
+                    case 'text-sm':
+                        return 'text-base'
+                    case 'text-base':
+                        return 'text-lg'
+                    case 'text-lg':
+                        return 'text-xl'
+                    default:
+                        return 'text-xl'
+                }
+            })()
+            localStorage.setItem('caseNoteFontSize', next)
+            return next
+        })
+    }
+
+    const decreaseFontSize = () => {
+        setFontSize((prev) => {
+            const next = (() => {
+                switch (prev) {
+                    case 'text-xl':
+                        return 'text-lg'
+                    case 'text-lg':
+                        return 'text-base'
+                    case 'text-base':
+                        return 'text-sm'
+                    case 'text-sm':
+                        return 'text-xs'
+                    default:
+                        return 'text-xs'
+                }
+            })()
+            localStorage.setItem('caseNoteFontSize', next)
+            return next
+        })
+    }
 
     const handleCloseView = () => {
         dispatch(clearViewMode())
@@ -40,8 +96,9 @@ const CaseNoteView: React.FC = () => {
                             type="button"
                             id="knowledge-assist-decreaser"
                             title="Decrease Font Size"
-                            className="bg-primary text-white text-xs w-5 h-5 rounded cursor-pointer"
-                            onClick={increaseFontSize}
+                            className="bg-primary text-white text-xs w-5 h-5 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed"
+                            onClick={decreaseFontSize}
+                            disabled={fontSize === 'text-xs'}
                         >
                             A
                         </button>
@@ -49,8 +106,9 @@ const CaseNoteView: React.FC = () => {
                             type="button"
                             id="knowledge-assist-increaser"
                             title="Increase Font Size"
-                            className="bg-primary text-white text-sm w-7 h-7 rounded cursor-pointer"
-                            onClick={decreaseFontSize}
+                            className="bg-primary text-white text-sm w-7 h-7 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed"
+                            onClick={increaseFontSize}
+                            disabled={fontSize === 'text-xl'}
                         >
                             A
                         </button>
@@ -96,7 +154,7 @@ const CaseNoteView: React.FC = () => {
                 </p>
             </div>
             <div className="px-3">
-                <p className="text-xs md:text-sm font-normal">
+                <p className={`${fontSize} font-normal`}>
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Atque impedit quo accusantium beatae. Labore, animi?
                     Accusamus omnis in commodi velit veniam consequatur quis
@@ -114,9 +172,7 @@ const CaseNoteView: React.FC = () => {
                     exercitationem, debitis fuga placeat voluptatum vel
                     praesentium tempore ut minus quia? Error, eveniet porro!
                 </p>
-                <p className="text-xs md:text-sm font-normal">
-                    {caseNote?.Message}
-                </p>
+                <p className={`${fontSize} font-normal`}>{caseNote?.Message}</p>
             </div>
         </div>
     )
