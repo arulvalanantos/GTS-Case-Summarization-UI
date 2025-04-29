@@ -251,7 +251,17 @@ const CaseNotes: React.FC = () => {
                 </>
             )}
             {isCaseNotesExpanded && !!filteredCaseNotes.length && (
-                <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-8 text-sm px-3 flex-none">
+                <div className="bg-white h-8 w-full flex flex-row items-center justify-end gap-7 text-sm px-3 flex-none">
+                    {!!searchText && (
+                        <div className="flex flex-row items-center gap-2">
+                            <p className="text-xs text-dark-gray">
+                                Total Results:
+                            </p>
+                            <p className="text-xs text-dark-gray">
+                                {filteredCaseNotes.length}
+                            </p>
+                        </div>
+                    )}
                     <div className="flex flex-row items-center gap-2">
                         <p className="text-xs text-dark-gray">Rows per page:</p>
                         <select
