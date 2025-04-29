@@ -27,7 +27,8 @@ const CaseSummary: React.FC = () => {
             constants.LOCAL_STORAGE.CASE_SUMMARY_HEIGHT
         )
         if (savedHeight) {
-            return parseInt(savedHeight, 10)
+            const height = parseInt(savedHeight, 10)
+            return isNaN(height) ? null : height
         }
         return null
     })
@@ -99,10 +100,11 @@ const CaseSummary: React.FC = () => {
     const resize = useCallback(
         (e: MouseEvent) => {
             if (!isResizing) return
-            const newHeight =
-                e.clientY -
-                document.getElementById('case-summary')!.getBoundingClientRect()
-                    .top
+
+            const container = document.getElementById('case-summary')
+            if (!container) return
+
+            const newHeight = e.clientY - container.getBoundingClientRect().top
             const maxHeight = Math.max(MIN_HEIGHT, newHeight)
             const minHeight = Math.min(MAX_HEIGHT, maxHeight)
 
