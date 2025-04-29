@@ -138,13 +138,8 @@ const CaseNoteView: React.FC = () => {
                 </h2>
                 <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
                     <p className="text-primary ">
-                        {
-                            <p className="text-primary">
-                                {dayjs(caseNote?.Created_Date).format(
-                                    'MM-DD-YYYY'
-                                ) || ''}
-                            </p>
-                        }
+                        {dayjs(caseNote?.Created_Date).format('MM-DD-YYYY') ||
+                            ''}
                     </p>
                     {isRedacted && (
                         <p className="bg-primary text-white px-2 rounded">
