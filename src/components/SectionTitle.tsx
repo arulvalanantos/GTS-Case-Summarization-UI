@@ -5,7 +5,7 @@ type SectionTitleProps = {
 }
 
 const SectionTitle: React.FC<SectionTitleProps> = ({ title }) => {
-    return <h3 className="text-sm sm:text-base font-bold select-none">{title}</h3>
+    return <h3 className="text-sm sm:text-lg font-bold select-none">{title}</h3>
 }
 
 export default SectionTitle

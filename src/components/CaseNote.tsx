@@ -6,6 +6,7 @@ import { BsBoxArrowInUpRight } from 'react-icons/bs'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { showSnackbar } from '@/store/reducers/alert'
+import { setViewMode } from '@/store/reducers/case-notes'
 import { ICaseNote } from '@/store/reducers/case-notes/types'
 
 type CaseNoteProps = {
@@ -30,6 +31,10 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                     showSnackbar(constants.ERROR_MESSAGE.FAILED_TO_COPY + error)
                 )
             })
+    }
+
+    const handleView = (id: string) => {
+        dispatch(setViewMode(id))
     }
 
     return (
@@ -73,6 +78,7 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                             title="View Case Note"
                             aria-label="View Case Note"
                             className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
+                            onClick={() => handleView(caseNote.Claim_ID)}
                         >
                             <BsBoxArrowInUpRight size={12} />
                             <span className="hidden lg:flex">View</span>

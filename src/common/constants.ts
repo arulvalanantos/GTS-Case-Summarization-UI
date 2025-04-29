@@ -15,7 +15,8 @@ const constants = {
     TITLE: {
         CLAIM_DETAILS: 'Claim Details',
         CASE_SUMMARY: 'Case Summary',
-        CASE_NOTES: 'Case Notes'
+        CASE_NOTES: 'Case Notes',
+        CASE_NOTE_DETAILS: 'Case Note Details',
     },
     ERROR_TEXT: {
         NETWORK_RELATED: 'network-related',

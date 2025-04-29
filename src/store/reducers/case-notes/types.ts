@@ -5,6 +5,8 @@ export type CaseNotesInitialState = {
     currentPage: number
     totalPages: number
     isCaseNotesExpanded: boolean
+    isViewMode: boolean
+    viewCaseNoteID: string
     sort: {
         date: 'asc' | 'desc'
         claimantID: 'asc' | 'desc'

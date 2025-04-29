@@ -12,6 +12,8 @@ const initialState: CaseNotesInitialState = {
     currentPage: 1,
     totalPages: 0,
     isCaseNotesExpanded: true,
+    isViewMode: false,
+    viewCaseNoteID: '',
     sort: {
         date: 'desc',
         claimantID: 'desc'
@@ -75,6 +77,14 @@ const caseNotesSlice = createSlice({
             state.totalPages = Math.ceil(
                 action.payload.length / state.noOfRowsPerPage
             )
+        },
+        setViewMode: (state, action: PayloadAction<string>) => {
+            state.isViewMode = true
+            state.viewCaseNoteID = action.payload
+        },
+        clearViewMode: (state) => {
+            state.isViewMode = false
+            state.viewCaseNoteID = ''
         }
     },
     extraReducers: (builder) => {
@@ -107,7 +117,9 @@ export const {
     updateCaseNoteEndDate,
     updateCaseNotes,
     previousPage,
-    nextPage
+    nextPage,
+    setViewMode,
+    clearViewMode
 } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes

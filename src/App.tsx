@@ -5,24 +5,25 @@ import { IoIosClose } from 'react-icons/io'
 import Snackbar from '@mui/material/Snackbar'
 
 import './App.css'
-import { RootState } from './store/types'
 import CaseNotes from './components/CaseNotes'
 import { useAppDispatch } from './store/hooks'
 import SearchForm from './components/SearchForm'
 import CaseSummary from './components/CaseSummary'
-import { closeSnackbar } from './store/reducers/alert'
+import CaseNoteView from './components/CaseNoteView'
 import { ICaseNote } from './store/reducers/case-notes/types'
-import { updateCaseNotes } from './store/reducers/case-notes'
+import { alertSelector, closeSnackbar } from './store/reducers/alert'
+import { caseNotesSelector, updateCaseNotes } from './store/reducers/case-notes'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
-    const snackbar = useSelector((state: RootState) => state.alert)
+    const snackbar = useSelector(alertSelector)
+    const { isViewMode } = useSelector(caseNotesSelector)
 
     const handleCloseSnackbar = () => {
         dispatch(closeSnackbar())
     }
 
-    const generateCaseNotes = (count = 100): ICaseNote[] => {
+    const generateCaseNotes = (count = 10000): ICaseNote[] => {
         const processTypes = ['Review', 'Approval', 'Investigation', 'Closure']
         const statuses = ['Open', 'Closed', 'Pending', 'In Progress']
         const creators = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve']
@@ -64,7 +65,7 @@ const App: React.FC = () => {
                 <SearchForm />
                 <div className="flex flex-col w-full h-full">
                     <CaseSummary />
-                    <CaseNotes />
+                    {isViewMode ? <CaseNoteView /> : <CaseNotes />}
                 </div>
             </div>
             <Snackbar

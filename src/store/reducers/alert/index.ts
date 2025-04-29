@@ -24,4 +24,7 @@ const alertSlice = createSlice({
 
 export const { showSnackbar, closeSnackbar } = alertSlice.actions
 
+export const alertSelector = (state: { alert: AlertInitialState }) =>
+    state.alert
+
 export default alertSlice.reducer
