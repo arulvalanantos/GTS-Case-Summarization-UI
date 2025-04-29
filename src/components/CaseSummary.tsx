@@ -110,7 +110,14 @@ const CaseSummary: React.FC = () => {
                 Math.max(MIN_HEIGHT, newHeight)
             )
 
+            // 👇 Live DOM update (faster than setState)
+            container.style.height = `${clampedHeight}px`
+            container.style.maxHeight = `${clampedHeight}px`
+            container.style.minHeight = `${clampedHeight}px`
+
+            // 👇 Save to state and localStorage after drag ends
             setHeight(clampedHeight)
+
             localStorage.setItem(
                 constants.LOCAL_STORAGE.CASE_SUMMARY_HEIGHT,
                 String(clampedHeight)
@@ -219,7 +226,9 @@ const CaseSummary: React.FC = () => {
             {isSummaryExpanded && isCaseNotesExpanded && (
                 <div
                     onMouseDown={startResizing}
-                    className="h-1 cursor-row-resize bg-gray-300 hover:bg-gray-400"
+                    className={`h-1 cursor-row-resize ${
+                        isResizing ? 'bg-primary' : 'bg-gray-300'
+                    } hover:bg-primary`}
                 />
             )}
         </section>
