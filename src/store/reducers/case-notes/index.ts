@@ -9,7 +9,7 @@ const initialState: CaseNotesInitialState = {
     isFetchingCaseNotes: false,
     caseNotes: [],
     noOfRowsPerPage: 10,
-    currentPage: 0,
+    currentPage: 1,
     totalPages: 0,
     isCaseNotesExpanded: true,
     sort: {
@@ -29,6 +29,10 @@ const caseNotesSlice = createSlice({
     reducers: {
         setNoOfRowsPerPage: (state, action) => {
             state.noOfRowsPerPage = action.payload
+            state.currentPage = 1
+            state.totalPages = Math.ceil(
+                state.caseNotes.length / action.payload
+            )
         },
         toggleCaseNotes: (state) => {
             state.isCaseNotesExpanded = !state.isCaseNotesExpanded
@@ -54,6 +58,16 @@ const caseNotesSlice = createSlice({
             action: PayloadAction<string | null>
         ) => {
             state.form.endDate = action.payload
+        },
+        previousPage: (state) => {
+            if (state.currentPage > 1) {
+                state.currentPage -= 1
+            }
+        },
+        nextPage: (state) => {
+            if (state.currentPage < state.totalPages) {
+                state.currentPage += 1
+            }
         },
         updateCaseNotes: (state, action: PayloadAction<ICaseNote[]>) => {
             state.caseNotes = action.payload
@@ -91,7 +105,9 @@ export const {
     updateClaimantID,
     updateCaseNoteStartDate,
     updateCaseNoteEndDate,
-    updateCaseNotes
+    updateCaseNotes,
+    previousPage,
+    nextPage
 } = caseNotesSlice.actions
 
 export const caseNotesSelector = (state: RootState) => state.caseNotes

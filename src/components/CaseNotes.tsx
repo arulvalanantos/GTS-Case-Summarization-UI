@@ -13,6 +13,8 @@ import { useAppDispatch } from '@/store/hooks'
 import { noOfRowsPerPages } from '@/common/static'
 import {
     caseNotesSelector,
+    nextPage,
+    previousPage,
     setNoOfRowsPerPage,
     toggleCaseNotes,
     toggleSortClaimantIDOrder,
@@ -57,6 +59,13 @@ const CaseNotes: React.FC = () => {
     const handleClaimantIDSort = (event: React.MouseEvent) => {
         event.stopPropagation()
         dispatch(toggleSortClaimantIDOrder())
+    }
+
+    const goToPreviousPage = () => {
+        dispatch(previousPage())
+    }
+    const goToNextPage = () => {
+        dispatch(nextPage())
     }
 
     return (
@@ -143,7 +152,10 @@ const CaseNotes: React.FC = () => {
                         <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto text-primary">
                             {isFetchingCaseNotes ? (
                                 <div className="flex items-center justify-center w-full h-full">
-                                    <CircularProgress color="inherit" size={16} />
+                                    <CircularProgress
+                                        color="inherit"
+                                        size={16}
+                                    />
                                 </div>
                             ) : (
                                 <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
@@ -178,6 +190,7 @@ const CaseNotes: React.FC = () => {
                             type="button"
                             className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
                             disabled={currentPage < 2}
+                            onClick={goToPreviousPage}
                         >
                             <IoIosArrowBack />
                         </button>
@@ -187,6 +200,7 @@ const CaseNotes: React.FC = () => {
                             disabled={
                                 currentPage >= totalPages || totalPages === 0
                             }
+                            onClick={goToNextPage}
                         >
                             <IoIosArrowForward />
                         </button>

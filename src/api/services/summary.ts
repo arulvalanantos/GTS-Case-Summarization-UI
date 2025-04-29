@@ -7,5 +7,5 @@ class SummaryService {
     }
 }
 
-const summaryInstance = new SummaryService()
-export default summaryInstance as SummaryService
+const summaryService = new SummaryService()
+export default summaryService as SummaryService

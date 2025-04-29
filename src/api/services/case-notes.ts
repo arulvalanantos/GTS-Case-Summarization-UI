@@ -8,5 +8,5 @@ class CaseNotesService {
     }
 }
 
-const caseNotesInstance = new CaseNotesService()
-export default caseNotesInstance as CaseNotesService
+const caseNotesService = new CaseNotesService()
+export default caseNotesService as CaseNotesService
