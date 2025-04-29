@@ -22,7 +22,7 @@ const App: React.FC = () => {
         dispatch(closeSnackbar())
     }
 
-    const generateCaseNotes = (count = 50): ICaseNote[] => {
+    const generateCaseNotes = (count = 100): ICaseNote[] => {
         const processTypes = ['Review', 'Approval', 'Investigation', 'Closure']
         const statuses = ['Open', 'Closed', 'Pending', 'In Progress']
         const creators = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve']

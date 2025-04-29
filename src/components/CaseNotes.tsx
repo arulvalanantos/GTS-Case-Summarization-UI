@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import TextField from '@mui/material/TextField'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
 import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import CaseNote from './CaseNote'
 import SectionTitle from './SectionTitle'
@@ -24,8 +25,6 @@ import {
 const CaseNotes: React.FC = () => {
     const dispatch = useAppDispatch()
 
-    const [isFocused, setIsFocused] = useState(false)
-
     const {
         caseNotes,
         noOfRowsPerPage,
@@ -36,15 +35,59 @@ const CaseNotes: React.FC = () => {
         sort: { date: dateSort, claimantID: claimantIDSort }
     } = useSelector(caseNotesSelector)
 
-    const DateSortIcon = dateSort === 'asc' ? FaArrowUp : FaArrowDown
-    const ClaimantIDSortIcon =
-        claimantIDSort === 'asc' ? FaArrowUp : FaArrowDown
+    const [isFocused, setIsFocused] = useState(false)
+
+    const scrollRef = useRef<HTMLDivElement>(null)
+
+    const DateSortIcon = useMemo(() => {
+        return dateSort === 'asc' ? FaArrowUp : FaArrowDown
+    }, [dateSort])
+
+    const ClaimantIDSortIcon = useMemo(() => {
+        return claimantIDSort === 'asc' ? FaArrowUp : FaArrowDown
+    }, [claimantIDSort])
+
+    const sortedAndPaginatedNotes = useMemo(() => {
+        const claimantOrder = claimantIDSort === 'asc' ? 1 : -1
+        const dateOrder = dateSort === 'asc' ? 1 : -1
+
+        return [...caseNotes]
+            .sort((a, b) => {
+                const aClaimId = Number(a.Claim_ID)
+                const bClaimId = Number(b.Claim_ID)
+
+                // Sort by Claim_ID (numerically), descending default
+                if (aClaimId !== bClaimId) {
+                    return (aClaimId - bClaimId) * claimantOrder
+                }
+
+                // If Claim_IDs are same, sort by Created_Date
+                const aDate = dayjs(a.Created_Date)
+                const bDate = dayjs(b.Created_Date)
+
+                if (!aDate.isSame(bDate)) {
+                    return aDate.isAfter(bDate) ? dateOrder : -dateOrder
+                }
+
+                return 0
+            })
+            .slice(
+                (currentPage - 1) * noOfRowsPerPage,
+                currentPage * noOfRowsPerPage
+            )
+    }, [caseNotes, noOfRowsPerPage, currentPage, dateSort, claimantIDSort])
 
     const handleChangeNoOfRowsPerPage = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const value = event.target.value
-        dispatch(setNoOfRowsPerPage(value))
+        const isValid = noOfRowsPerPages.some((row) => row.value === +value)
+        if (!isValid) return
+
+        const num = parseInt(value, 10)
+        if (isNaN(num)) return
+
+        dispatch(setNoOfRowsPerPage(num))
     }
 
     const handleCaseNoteExpandsion = () => {
@@ -67,6 +110,12 @@ const CaseNotes: React.FC = () => {
     const goToNextPage = () => {
         dispatch(nextPage())
     }
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = 0
+        }
+    }, [currentPage])
 
     return (
         <section
@@ -142,9 +191,12 @@ const CaseNotes: React.FC = () => {
             </div>
             {isCaseNotesExpanded && (
                 <>
-                    {caseNotes.length && !isFetchingCaseNotes ? (
-                        <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min">
-                            {caseNotes.map((caseNote, index) => (
+                    {sortedAndPaginatedNotes?.length && !isFetchingCaseNotes ? (
+                        <div
+                            ref={scrollRef}
+                            className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min"
+                        >
+                            {sortedAndPaginatedNotes?.map((caseNote, index) => (
                                 <CaseNote key={index} caseNote={caseNote} />
                             ))}
                         </div>
