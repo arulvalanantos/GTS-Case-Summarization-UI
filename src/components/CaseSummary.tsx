@@ -1,8 +1,9 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { FaRegClone } from 'react-icons/fa'
+import { IoIosArrowDown } from 'react-icons/io'
 import { FaArrowRotateLeft } from 'react-icons/fa6'
 import CircularProgress from '@mui/material/CircularProgress'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
@@ -12,11 +13,53 @@ import { fetchSummary } from '@/store/reducers/summary/thunk'
 import { caseNotesSelector } from '@/store/reducers/case-notes'
 import { summarySelector, toggleSummary } from '@/store/reducers/summary'
 
+const MIN_HEIGHT = 100
+const MAX_HEIGHT = 200
+
 const CaseSummary: React.FC = () => {
     const dispatch = useAppDispatch()
     const { summary, isSummaryExpanded, isFetchingSummary } =
         useSelector(summarySelector)
     const { isCaseNotesExpanded, caseNotes } = useSelector(caseNotesSelector)
+
+    const [height, setHeight] = useState<number | null>(() => {
+        const savedHeight = localStorage.getItem(
+            constants.LOCAL_STORAGE.CASE_SUMMARY_HEIGHT
+        )
+        if (savedHeight) {
+            return parseInt(savedHeight, 10)
+        }
+        return null
+    })
+    const [isResizing, setIsResizing] = useState(false)
+
+    const heightInfo = useMemo(() => {
+        let currentHeight = `${height}px`
+        let minHeight = `${MIN_HEIGHT}px`
+        let maxHeight = `${MAX_HEIGHT}px`
+
+        if (isSummaryExpanded) {
+            if (isCaseNotesExpanded) {
+                currentHeight = `${height}px`
+                minHeight = `${MIN_HEIGHT}px`
+                maxHeight = `${MAX_HEIGHT}px`
+            } else {
+                currentHeight = '100%'
+                minHeight = `${MIN_HEIGHT}px`
+                maxHeight = '100%'
+            }
+        } else {
+            currentHeight = '40px'
+            minHeight = '40px'
+            maxHeight = '40px'
+        }
+
+        return {
+            currentHeight,
+            minHeight,
+            maxHeight
+        }
+    }, [isSummaryExpanded, isCaseNotesExpanded, height])
 
     const handleCopy = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -44,24 +87,70 @@ const CaseSummary: React.FC = () => {
         dispatch(toggleSummary())
     }
 
+    const startResizing = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIsResizing(true)
+    }
+
+    const stopResizing = () => {
+        setIsResizing(false)
+    }
+
+    const resize = useCallback(
+        (e: MouseEvent) => {
+            if (!isResizing) return
+            const newHeight =
+                e.clientY -
+                document.getElementById('case-summary')!.getBoundingClientRect()
+                    .top
+            const maxHeight = Math.max(MIN_HEIGHT, newHeight)
+            const minHeight = Math.min(MAX_HEIGHT, maxHeight)
+
+            setHeight(minHeight)
+            localStorage.setItem(
+                constants.LOCAL_STORAGE.CASE_SUMMARY_HEIGHT,
+                String(minHeight)
+            )
+        },
+        [isResizing]
+    )
+
+    useEffect(() => {
+        window.addEventListener('mousemove', resize)
+        window.addEventListener('mouseup', stopResizing)
+        return () => {
+            window.removeEventListener('mousemove', resize)
+            window.removeEventListener('mouseup', stopResizing)
+        }
+    }, [isResizing, resize])
+
     return (
         <section
             id="case-summary"
-            className={`flex flex-col overflow-hidden transition-transform duration-300 ease-in-out  ${
-                isSummaryExpanded
-                    ? `min-h[100px] ${
-                          isCaseNotesExpanded
-                              ? 'max-h-[200px]'
-                              : 'h-full max-h-full'
-                      } border-b-1 border-gray-200`
-                    : 'h-10'
-            }`}
+            className={`flex flex-col overflow-hidden transition-transform duration-300 ease-in-out border-b-1 border-gray-200`}
+            style={{
+                height: heightInfo.currentHeight,
+                minHeight: heightInfo.minHeight,
+                maxHeight: heightInfo.maxHeight
+            }}
         >
-            <div
-                className="cursor-pointer flex flex-row items-center justify-between bg-gray-100 px-3 py-2"
-                onClick={toggleExpand}
-            >
-                <SectionTitle title={constants.TITLE.CASE_SUMMARY} />
+            <div className="flex flex-row items-center justify-between bg-gray-100 px-3 py-2">
+                <div className="flex flex-row items-center gap-2">
+                    <SectionTitle title={constants.TITLE.CASE_SUMMARY} />
+                    <button
+                        type="button"
+                        onClick={toggleExpand}
+                        className="cursor-pointer"
+                        title={isSummaryExpanded ? 'Collapse' : 'Expand'}
+                    >
+                        <IoIosArrowDown
+                            size={16}
+                            className={`text-gray-500 transition-transform duration-300 ease-in-out ${
+                                isSummaryExpanded ? 'rotate-180' : ''
+                            }`}
+                        />
+                    </button>
+                </div>
                 {isSummaryExpanded && (
                     <div className="flex flex-row items-center gap-1">
                         <button
@@ -110,6 +199,12 @@ const CaseSummary: React.FC = () => {
                         </div>
                     )}
                 </div>
+            )}
+            {isSummaryExpanded && isCaseNotesExpanded && (
+                <div
+                    onMouseDown={startResizing}
+                    className="h-1 cursor-row-resize bg-gray-300 hover:bg-gray-400"
+                />
             )}
         </section>
     )

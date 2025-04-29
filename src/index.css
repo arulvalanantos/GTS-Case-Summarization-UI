@@ -33,13 +33,19 @@ body {
     overflow-x: hidden;
 }
 
+@media (min-width: 780px) {
+    body {
+        overflow: hidden;
+    }
+}
+
 #root {
     width: 100%;
     height: 100%;
 }
 
 input::placeholder {
-  user-select: none;
+    user-select: none;
 }
 
 .MuiPickersSectionList-root {

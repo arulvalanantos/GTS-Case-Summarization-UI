@@ -2,6 +2,7 @@ const constants = {
     LOCAL_STORAGE: {
         ROWS_PER_PAGE: 'rows_per_page',
         CASE_NOTE_FONT_SIZE: 'case_note_font_size',
+        CASE_SUMMARY_HEIGHT: 'case_summary_height',
     },
     API_CONFIG: {
         AXIOS_TIMEOUT: 180000, // 3 minutes
@@ -20,7 +21,7 @@ const constants = {
         CLAIM_DETAILS: 'Claim Details',
         CASE_SUMMARY: 'Case Summary',
         CASE_NOTES: 'Case Notes',
-        CASE_NOTE_DETAILS: 'Case Note Details',
+        CASE_NOTE_DETAILS: 'Case Note Details'
     },
     ERROR_TEXT: {
         NETWORK_RELATED: 'network-related',
