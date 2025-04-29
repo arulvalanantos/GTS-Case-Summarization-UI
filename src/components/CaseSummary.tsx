@@ -105,13 +105,15 @@ const CaseSummary: React.FC = () => {
             if (!container) return
 
             const newHeight = e.clientY - container.getBoundingClientRect().top
-            const maxHeight = Math.max(MIN_HEIGHT, newHeight)
-            const minHeight = Math.min(MAX_HEIGHT, maxHeight)
+            const clampedHeight = Math.min(
+                MAX_HEIGHT,
+                Math.max(MIN_HEIGHT, newHeight)
+            )
 
-            setHeight(minHeight)
+            setHeight(clampedHeight)
             localStorage.setItem(
                 constants.LOCAL_STORAGE.CASE_SUMMARY_HEIGHT,
-                String(minHeight)
+                String(clampedHeight)
             )
         },
         [isResizing]
@@ -125,6 +127,18 @@ const CaseSummary: React.FC = () => {
             window.removeEventListener('mouseup', stopResizing)
         }
     }, [isResizing, resize])
+
+    useEffect(() => {
+        if (isResizing) {
+            document.body.style.cursor = 'row-resize'
+        } else {
+            document.body.style.cursor = ''
+        }
+
+        return () => {
+            document.body.style.cursor = ''
+        }
+    }, [isResizing])
 
     return (
         <section
