@@ -96,7 +96,7 @@ const CaseNoteView: React.FC = () => {
                 isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
             }`}
         >
-            <div className="flex flex-row items-start justify-between py-2 px-3 bg-gray-100">
+            <div className="flex flex-row items-center justify-between py-2 px-3 bg-gray-100">
                 <SectionTitle title={constants.TITLE.CASE_NOTE_DETAILS} />
                 <div className="flex flex-row items-center gap-5">
                     <div className="flex flex-row gap-1 items-end">

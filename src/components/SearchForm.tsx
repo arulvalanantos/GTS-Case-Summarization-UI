@@ -123,8 +123,16 @@ const SearchForm: React.FC = () => {
                     type="button"
                     className="flex items-center justify-center cursor-pointer"
                     onClick={toggleFormExpand}
-                    title={isFormExpanded ? 'Collapse' : 'Expand'}
-                    aria-label={isFormExpanded ? 'Collapse' : 'Expand'}
+                    title={
+                        isFormExpanded
+                            ? 'Collapse Search Form'
+                            : 'Expand Search Form'
+                    }
+                    aria-label={
+                        isFormExpanded
+                            ? 'Collapse Search Form'
+                            : 'Expand Search Form'
+                    }
                 >
                     <Icon />
                 </button>
@@ -135,10 +143,17 @@ const SearchForm: React.FC = () => {
                     className="w-full flex flex-col gap-2 mt-5"
                 >
                     <div>
-                        <label className="text-xs select-none">
+                        <label
+                            htmlFor="claimantID"
+                            className="text-xs select-none"
+                        >
                             Claimant ID
                         </label>
                         <TextField
+                            id="claimantID"
+                            name="claimantID"
+                            variant="outlined"
+                            autoComplete="off"
                             type="text"
                             disabled={isFetchingCaseNotes}
                             inputRef={claimantIDRef}
@@ -150,7 +165,7 @@ const SearchForm: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="text-xs select-none">
+                        <label id="startDate" className="text-xs select-none">
                             Start Date
                         </label>
                         <DatePicker
@@ -165,7 +180,9 @@ const SearchForm: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="text-xs select-none">End Date</label>
+                        <label id="endDate" className="text-xs select-none">
+                            End Date
+                        </label>
                         <DatePicker
                             name="endDate"
                             className="w-full bg-white"

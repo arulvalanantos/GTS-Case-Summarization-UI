@@ -146,7 +146,7 @@ const CaseNotes: React.FC = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = 0
         }
-    }, [currentPage])
+    }, [currentPage, noOfRowsPerPage])
 
     return (
         <section
@@ -278,6 +278,9 @@ const CaseNotes: React.FC = () => {
                     <div className="flex flex-row items-center gap-2">
                         <p className="text-xs text-dark-gray">Rows per page:</p>
                         <select
+                            id="rows-per-page"
+                            name="rows-per-page"
+                            disabled={isFetchingCaseNotes}
                             className="text-xs outline-none border-none"
                             value={noOfRowsPerPage}
                             onChange={handleChangeNoOfRowsPerPage}
@@ -296,7 +299,9 @@ const CaseNotes: React.FC = () => {
                         <button
                             type="button"
                             className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
-                            disabled={currentPage < 2}
+                            disabled={
+                                currentPage < 2 || filteredTotalPages === 0
+                            }
                             onClick={goToPreviousPage}
                         >
                             <IoIosArrowBack />
