@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import Utils from '@/common/utils'
+import { RootState } from '@/store/types'
 import constants from '@/common/constants'
 import GeneralService from '@/api/services/general'
 import CaseNotesService from '@api/services/case-notes'
@@ -9,8 +10,13 @@ export const fetchCaseNotes = createAsyncThunk(
     'case_notes/fetchCaseNotes',
     async (_, thunkAPI) => {
         try {
-            const response = await CaseNotesService.fetchCaseNotes()
-            return response.data
+            const state = thunkAPI.getState() as RootState
+            const { form } = state.caseNotes
+            const response = await CaseNotesService.fetchCaseNotes(form)
+
+            const caseNotes = response?.LookUpNotes?.Notes ?? []
+
+            return caseNotes
         } catch (error) {
             return Utils.handleThunkRejection(
                 error,
@@ -26,7 +32,9 @@ export const fetchClaimantID = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await GeneralService.getClaimantID()
-            return response.data
+
+            const claimantID = response?.LookUpClaimantID?.CID ?? ''
+            return claimantID
         } catch (error) {
             return Utils.handleThunkRejection(
                 error,

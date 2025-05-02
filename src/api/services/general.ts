@@ -1,9 +1,10 @@
+import { GetClaimantIDResponse } from '@/store/reducers/case-notes/types'
 import API from '../helpers'
 
 class GeneralService {
     async getClaimantID() {
         const endpoint = '/claimant-id'
-        return await API.getRequest<string>(endpoint)
+        return await API.getRequest<GetClaimantIDResponse>(endpoint)
     }
 
     async getAdminConfig() {

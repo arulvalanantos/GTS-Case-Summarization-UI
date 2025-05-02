@@ -1,10 +1,16 @@
-import { ICaseNote } from '@/store/reducers/case-notes/types'
+import {
+    CaseNoteFetchRequest,
+    CaseNoteFetchResponse
+} from '@/store/reducers/case-notes/types'
 import API from '../helpers'
 
 class CaseNotesService {
-    async fetchCaseNotes() {
+    async fetchCaseNotes(payload: CaseNoteFetchRequest) {
         const endpoint = '/case-notes'
-        return await API.getRequest<ICaseNote[]>(endpoint)
+        return await API.postRequest<
+            CaseNoteFetchResponse,
+            CaseNoteFetchRequest
+        >(endpoint, payload)
     }
 }
 

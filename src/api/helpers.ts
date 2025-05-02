@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 
 import APIInstance from '.'
-import { APIResponse, AxiosResponseData } from '@common/interfaces'
+import { APIResponse } from '@common/interfaces'
 
 /**
  * Wraps an API response callback in a Promise.
@@ -13,7 +13,7 @@ import { APIResponse, AxiosResponseData } from '@common/interfaces'
 const APIRequest = <T>(callback: APIResponse<T>): APIResponse<T> => {
     return new Promise((resolve, reject) => {
         return callback
-            .then((response: AxiosResponseData<T>) => resolve(response))
+            .then((response: T) => resolve(response))
             .catch((error: unknown) => reject(error))
     })
 }

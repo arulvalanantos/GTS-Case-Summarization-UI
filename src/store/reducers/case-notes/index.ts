@@ -113,9 +113,13 @@ const caseNotesSlice = createSlice({
             .addCase(fetchClaimantID.pending, (state) => {
                 state.isFetchingClaimantID = true
             })
-            .addCase(fetchClaimantID.fulfilled, (state) => {
-                state.isFetchingClaimantID = false
-            })
+            .addCase(
+                fetchClaimantID.fulfilled,
+                (state, action: PayloadAction<string>) => {
+                    state.isFetchingClaimantID = false
+                    state.form.claimantID = action.payload ?? ''
+                }
+            )
             .addCase(fetchClaimantID.rejected, (state) => {
                 state.isFetchingClaimantID = false
             })

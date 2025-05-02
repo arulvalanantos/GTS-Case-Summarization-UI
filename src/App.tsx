@@ -9,7 +9,7 @@ import constants from './common/constants'
 import CaseNotes from './components/CaseNotes'
 import { useAppDispatch } from './store/hooks'
 import SearchForm from './components/SearchForm'
-import CaseSummary from './components/CaseSummary'
+// import CaseSummary from './components/CaseSummary'
 import CaseNoteView from './components/CaseNoteView'
 import { ICaseNote } from './store/reducers/case-notes/types'
 import { alertSelector, closeSnackbar } from './store/reducers/alert'
@@ -76,7 +76,7 @@ const App: React.FC = () => {
             <div className="flex flex-row w-full h-full">
                 <SearchForm />
                 <div className="flex flex-col w-full h-full">
-                    <CaseSummary />
+                    {/* <CaseSummary /> */}
                     <CaseNoteView />
                     <CaseNotes />
                 </div>

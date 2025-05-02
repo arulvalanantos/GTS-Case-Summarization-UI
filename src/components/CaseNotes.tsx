@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import TextField from '@mui/material/TextField'
-import { IoIosArrowDown } from 'react-icons/io'
+// import { IoIosArrowDown } from 'react-icons/io'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
 import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
@@ -19,7 +19,7 @@ import {
     nextPage,
     previousPage,
     setNoOfRowsPerPage,
-    toggleCaseNotes,
+    // toggleCaseNotes,
     toggleSortClaimantIDOrder,
     toggleSortDateOrder,
     updateSearchText
@@ -118,9 +118,9 @@ const CaseNotes: React.FC = () => {
         )
     }
 
-    const handleCaseNoteExpandsion = () => {
-        dispatch(toggleCaseNotes())
-    }
+    // const handleCaseNoteExpandsion = () => {
+    //     dispatch(toggleCaseNotes())
+    // }
 
     const handleCaseNoteDateSort = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -163,7 +163,7 @@ const CaseNotes: React.FC = () => {
                 <div className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0">
                     <div className="flex flex-row items-center gap-2">
                         <SectionTitle title={constants.TITLE.CASE_NOTES} />
-                        <button
+                        {/* <button
                             type="button"
                             onClick={handleCaseNoteExpandsion}
                             className="cursor-pointer"
@@ -175,7 +175,7 @@ const CaseNotes: React.FC = () => {
                                     isCaseNotesExpanded ? 'rotate-180' : ''
                                 }`}
                             />
-                        </button>
+                        </button> */}
                     </div>
                     {isCaseNotesExpanded && (
                         <div className="flex flex-row gap-3">

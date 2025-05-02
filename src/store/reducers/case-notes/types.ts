@@ -29,3 +29,28 @@ export type ICaseNote = {
     Redacted: string
     Status: string
 }
+
+export type CaseNoteFetchRequest = {
+    claimantID: string
+    startDate: string | null
+    endDate: string | null
+}
+
+export type CaseNoteFetchResponse = {
+    LookUpNotes: {
+        status: string
+        CID: string
+        Notes: ICaseNote[]
+    }
+}
+
+export type GetClaimantIDRequest = {
+    conversationID: string
+}
+
+export type GetClaimantIDResponse = {
+    LookUpClaimantID: {
+        status: string
+        CID: string
+    }
+}
