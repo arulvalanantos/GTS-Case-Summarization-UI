@@ -150,7 +150,7 @@ const CaseSummary: React.FC = () => {
     return (
         <section
             id="case-summary"
-            className={`flex flex-col overflow-hidden transition-transform duration-300 ease-in-out border-b-1 border-gray-200`}
+            className={`flex flex-col overflow-hidden transition-height duration-300 ease-in-out border-b-1 border-gray-200`}
             style={{
                 height: heightInfo.currentHeight,
                 minHeight: heightInfo.minHeight,
@@ -179,13 +179,13 @@ const CaseSummary: React.FC = () => {
                         <button
                             title="Copy Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed"
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
                             onClick={handleCopy}
                             disabled={!summary}
                         >
                             <FaRegClone
                                 size={12}
-                                className="group-hover:scale-95 transition duration-500 ease-in-out"
+                                className="group-hover:scale-95 transition duration-500 ease"
                             />
                         </button>
                         <button
@@ -193,7 +193,7 @@ const CaseSummary: React.FC = () => {
                             title="Generate Summary"
                             type="button"
                             disabled={!caseNotes.length}
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed"
+                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
                         >
                             <FaArrowRotateLeft
                                 size={12}

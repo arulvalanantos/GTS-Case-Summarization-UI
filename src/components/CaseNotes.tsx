@@ -152,7 +152,7 @@ const CaseNotes: React.FC = () => {
     return (
         <section
             id="case-notes"
-            className={`flex flex-col ${
+            className={`flex flex-col transition-height duration-500 ease-in-out ${
                 isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
             }`}
         >
@@ -181,7 +181,7 @@ const CaseNotes: React.FC = () => {
                                 onClick={handleClaimantIDSort}
                                 disabled={!caseNotes.length}
                                 title="Sort by Claimant ID"
-                                className="bg-primary text-white px-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
+                                className="bg-primary text-white px-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition-all duration-500 ease-in disabled:cursor-not-allowed disabled:bg-gray"
                             >
                                 <span className="text-xs hidden sm:flex flex-row items-center gap-1">
                                     Sort by Claimant ID
@@ -197,7 +197,7 @@ const CaseNotes: React.FC = () => {
                                 onClick={handleCaseNoteDateSort}
                                 disabled={!caseNotes.length}
                                 title="Sort by Note Date"
-                                className="bg-primary text-white p-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition duration-500 ease-in-out disabled:cursor-not-allowed disabled:bg-gray"
+                                className="bg-primary text-white p-2 xs:py-2 xs:px-3 text-sm rounded flex flex-row items-center gap-1 xs:gap-3 cursor-pointer select-none hover:scale-98 transition-all duration-500 ease-in disabled:cursor-not-allowed disabled:bg-gray"
                             >
                                 <span className="hidden sm:flex text-xs flex-row items-center gap-1">
                                     Sort By Note Date
@@ -305,7 +305,7 @@ const CaseNotes: React.FC = () => {
                         </p>
                         <button
                             type="button"
-                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
+                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray hover:scale-90 transition-transform duration-300 ease-in"
                             disabled={
                                 currentPage < 2 || filteredTotalPages === 0
                             }
@@ -315,7 +315,7 @@ const CaseNotes: React.FC = () => {
                         </button>
                         <button
                             type="button"
-                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray"
+                            className="cursor-pointer disabled:cursor-not-allowed disabled:text-gray hover:scale-90 transition-transform duration-300 ease-in"
                             disabled={
                                 currentPage >= filteredTotalPages ||
                                 filteredTotalPages === 0

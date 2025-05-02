@@ -63,20 +63,26 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                             type="button"
                             title="Copy Case Note"
                             aria-label="Copy Case Note"
-                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
+                            className="group bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer hover:scale-95 transition-transform duration-300 ease-in"
                             onClick={handleCopy}
                         >
-                            <FaRegClone size={12} />
+                            <FaRegClone
+                                size={12}
+                                className="group-hover:scale-105 transition-transform duration-300 ease-in"
+                            />
                             <span className="hidden lg:flex">Copy</span>
                         </button>
                         <button
                             type="button"
                             title="View Case Note"
                             aria-label="View Case Note"
-                            className="bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer"
+                            className="group bg-white text-primary px-2 py-1 border-[1.5px] border-primary rounded text-xs flex items-center gap-2 cursor-pointer hover:scale-95 transition-transform duration-300 ease-in"
                             onClick={() => handleView(caseNote.Claim_ID)}
                         >
-                            <BsBoxArrowInUpRight size={12} />
+                            <BsBoxArrowInUpRight
+                                size={12}
+                                className="group-hover:translate-x-1 transition-transform duration-300 ease-in"
+                            />
                             <span className="hidden lg:flex">View</span>
                         </button>
                     </div>

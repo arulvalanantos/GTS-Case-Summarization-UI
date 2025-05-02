@@ -104,30 +104,35 @@ const CaseNoteView: React.FC = () => {
                             type="button"
                             id="knowledge-assist-decreaser"
                             title="Decrease Font Size"
-                            className="bg-primary text-white text-xs w-5 h-5 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed"
+                            className="group bg-primary text-white text-xs w-5 h-5 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed hover:scale-95 transition-transform duration-300 ease-in"
                             onClick={decreaseFontSize}
                             disabled={fontSize === 'text-xs'}
                         >
-                            A
+                            <span className="group-hover:scale-90">A</span>
                         </button>
                         <button
                             type="button"
                             id="knowledge-assist-increaser"
                             title="Increase Font Size"
-                            className="bg-primary text-white text-sm w-7 h-7 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed"
+                            className="group bg-primary text-white text-sm w-7 h-7 rounded cursor-pointer disabled:bg-gray disabled:cursor-not-allowed hover:scale-95 transition-transform duration-300 ease-in"
                             onClick={increaseFontSize}
                             disabled={fontSize === 'text-xl'}
                         >
-                            A
+                            <span className="group-hover:scale-110 transition-transform duration-500 ease-in-out">
+                                A
+                            </span>
                         </button>
                     </div>
 
                     <button
                         type="button"
                         onClick={handleCloseView}
-                        className="bg-white p-1 text-primary border-primary border-[1.5px] rounded cursor-pointer flex flex-row gap-1 items-center"
+                        className="group bg-white p-1 text-primary border-primary border-[1.5px] rounded cursor-pointer flex flex-row gap-1 items-center hover:scale-95 transition-transform duration-300 ease-in"
                     >
-                        <IoMdClose size={14} />
+                        <IoMdClose
+                            size={14}
+                            className="group-hover:scale-105 transform duration-300 ease-in"
+                        />
                         <span className="text-xs">Close</span>
                     </button>
                 </div>
