@@ -150,7 +150,9 @@ const CaseSummary: React.FC = () => {
     return (
         <section
             id="case-summary"
-            className={`flex flex-col overflow-hidden transition-height duration-300 ease-in-out border-b-1 border-gray-200`}
+            className={`flex flex-col overflow-hidden ${
+                isResizing ? '' : 'transition-height duration-300 ease-in-out'
+            } border-b-1 border-gray-200`}
             style={{
                 height: heightInfo.currentHeight,
                 minHeight: heightInfo.minHeight,
