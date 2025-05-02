@@ -20,7 +20,7 @@ type FontSize = (typeof allowedFontSizes)[number]
 const CaseNoteView: React.FC = () => {
     const dispatch = useAppDispatch()
 
-    const { caseNotes, viewCaseNoteID, isCaseNotesExpanded } =
+    const { caseNotes, viewCaseNoteID, isCaseNotesExpanded, isViewMode } =
         useSelector(caseNotesSelector)
 
     const [fontSize, setFontSize] = React.useState<FontSize>(() => {
@@ -92,12 +92,14 @@ const CaseNoteView: React.FC = () => {
 
     return (
         <div
-            className={`flex flex-col gap-2 overflow-auto ${
+            className={`${
+                isViewMode ? 'flex' : 'hidden'
+            } flex-col gap-2 overflow-auto ${
                 isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
             }`}
         >
             <div className="flex flex-row items-center justify-between py-2 px-3 bg-gray-100">
-                <SectionTitle title={constants.TITLE.CASE_NOTE_DETAILS} />
+                <SectionTitle title={`CLAIM ID: ${caseNote?.Claim_ID}`} />
                 <div className="flex flex-row items-center gap-5">
                     <div className="flex flex-row gap-1 items-end">
                         <button
@@ -138,13 +140,14 @@ const CaseNoteView: React.FC = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-2 px-3">
-                <h2 className="text-sm md:text-base font-bold">
-                    CLAIM ID: {caseNote?.Claim_ID}
-                </h2>
                 <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
-                    <p className="text-primary ">
-                        {dayjs(caseNote?.Created_Date).format('MM-DD-YYYY') ||
-                            ''}
+                    <p className="text-primary flex flex-row gap-1 items-center">
+                        <span>Created At:</span>
+                        <span>
+                            {dayjs(caseNote?.Created_Date).format(
+                                'MM-DD-YYYY'
+                            ) || ''}
+                        </span>
                     </p>
                     {isRedacted && (
                         <p className="bg-primary text-white px-2 rounded">
@@ -154,11 +157,13 @@ const CaseNoteView: React.FC = () => {
                 </div>
             </div>
             <div className="px-3 flex flex-row items-center gap-5 text-xs md:text-sm text-primary">
-                <p>
-                    Created By: <span>{caseNote?.Created_By}</span>
+                <p className="flex flex-row gap-1 items-center">
+                    <span>Created By:</span>
+                    <span>{caseNote?.Created_By}</span>
                 </p>
-                <p>
-                    Process Type: <span>{caseNote?.Process_Type}</span>
+                <p className="flex flex-row gap-1 items-center">
+                    <span>Process Type:</span>{' '}
+                    <span>{caseNote?.Process_Type}</span>
                 </p>
             </div>
             <div className="px-3">

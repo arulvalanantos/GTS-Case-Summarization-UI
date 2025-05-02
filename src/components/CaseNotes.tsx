@@ -35,6 +35,7 @@ const CaseNotes: React.FC = () => {
         currentPage,
         isFetchingCaseNotes,
         searchText,
+        isViewMode,
         sort: { date: dateSort, claimantID: claimantIDSort }
     } = useSelector(caseNotesSelector)
 
@@ -152,7 +153,9 @@ const CaseNotes: React.FC = () => {
     return (
         <section
             id="case-notes"
-            className={`flex flex-col transition-height duration-500 ease-in-out ${
+            className={`${
+                isViewMode ? 'hidden' : 'flex'
+            } flex-col transition-height duration-500 ease-in-out ${
                 isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
             }`}
         >
@@ -212,7 +215,7 @@ const CaseNotes: React.FC = () => {
                     )}
                 </div>
                 {isCaseNotesExpanded && (
-                    <div className="px-3">
+                    <div className="px-3 py-1">
                         <TextField
                             value={searchText}
                             onChange={onSearchTextChange}
@@ -244,7 +247,7 @@ const CaseNotes: React.FC = () => {
                     {sortedAndPaginatedNotes?.length && !isFetchingCaseNotes ? (
                         <div
                             ref={scrollRef}
-                            className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min"
+                            className="bg-white p-2 flex-1 min-h-[150px] w-full overflow-auto grid grid-cols-1 sm:grid-cols-2 gap-2 auto-rows-min"
                         >
                             {sortedAndPaginatedNotes?.map((caseNote, index) => (
                                 <CaseNote key={index} caseNote={caseNote} />

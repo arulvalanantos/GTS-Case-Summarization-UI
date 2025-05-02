@@ -14,7 +14,6 @@ import CaseNoteView from './components/CaseNoteView'
 import { ICaseNote } from './store/reducers/case-notes/types'
 import { alertSelector, closeSnackbar } from './store/reducers/alert'
 import {
-    caseNotesSelector,
     setNoOfRowsPerPage,
     updateCaseNotes
 } from './store/reducers/case-notes'
@@ -22,7 +21,6 @@ import {
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
     const snackbar = useSelector(alertSelector)
-    const { isViewMode } = useSelector(caseNotesSelector)
 
     const handleCloseSnackbar = () => {
         dispatch(closeSnackbar())
@@ -79,7 +77,8 @@ const App: React.FC = () => {
                 <SearchForm />
                 <div className="flex flex-col w-full h-full">
                     <CaseSummary />
-                    {isViewMode ? <CaseNoteView /> : <CaseNotes />}
+                    <CaseNoteView />
+                    <CaseNotes />
                 </div>
             </div>
             <Snackbar
