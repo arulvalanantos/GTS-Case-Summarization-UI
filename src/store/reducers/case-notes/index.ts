@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { fetchCaseNotes } from './thunk'
 import { RootState } from '@/store/types'
 import constants from '@/common/constants'
+import { fetchCaseNotes, fetchClaimantID } from './thunk'
 import { CaseNotesInitialState, ICaseNote } from './types'
 
 const initialState: CaseNotesInitialState = {
     isFetchingCaseNotes: false,
+    isFetchingClaimantID: false,
     caseNotes: [],
     searchText: '',
     noOfRowsPerPage: 10,
@@ -87,7 +88,7 @@ const caseNotesSlice = createSlice({
             state.isViewMode = false
             state.viewCaseNoteID = ''
         },
-        updateSearchText: (state, action: PayloadAction<string>) => { 
+        updateSearchText: (state, action: PayloadAction<string>) => {
             state.searchText = action.payload
             state.currentPage = 1
         }
@@ -108,6 +109,15 @@ const caseNotesSlice = createSlice({
             .addCase(fetchCaseNotes.rejected, (state) => {
                 state.caseNotes = []
                 state.isFetchingCaseNotes = false
+            })
+            .addCase(fetchClaimantID.pending, (state) => {
+                state.isFetchingClaimantID = true
+            })
+            .addCase(fetchClaimantID.fulfilled, (state) => {
+                state.isFetchingClaimantID = false
+            })
+            .addCase(fetchClaimantID.rejected, (state) => {
+                state.isFetchingClaimantID = false
             })
     }
 })

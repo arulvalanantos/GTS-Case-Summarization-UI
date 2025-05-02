@@ -2,7 +2,7 @@ const constants = {
     LOCAL_STORAGE: {
         ROWS_PER_PAGE: 'rows_per_page',
         CASE_NOTE_FONT_SIZE: 'case_note_font_size',
-        CASE_SUMMARY_HEIGHT: 'case_summary_height',
+        CASE_SUMMARY_HEIGHT: 'case_summary_height'
     },
     API_CONFIG: {
         AXIOS_TIMEOUT: 180000, // 3 minutes
@@ -35,7 +35,8 @@ const constants = {
     ERROR_MESSAGE: {
         FAILED_TO_COPY: 'Failed to copy text: ',
         UNABLE_TO_FETCH_CASE_NOTES: 'Unable to fetch case notes',
-        UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary'
+        UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary',
+        UNABLE_TO_FETCH_CLAIMANT_ID: 'Unable to fetch claimant ID',
     },
     MIN_START_DATE: '2013-10-15'
 }

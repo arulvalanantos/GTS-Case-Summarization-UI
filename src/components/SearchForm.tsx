@@ -1,17 +1,20 @@
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import TextField from '@mui/material/TextField'
-import React, { useEffect, useMemo, useRef } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CircularProgress from '@mui/material/CircularProgress'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { showSnackbar } from '@/store/reducers/alert'
-import { fetchCaseNotes } from '@/store/reducers/case-notes/thunk'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
+import {
+    fetchCaseNotes,
+    fetchClaimantID
+} from '@/store/reducers/case-notes/thunk'
 import {
     caseNotesSelector,
     updateCaseNoteEndDate,
@@ -25,7 +28,8 @@ const SearchForm: React.FC = () => {
     const dispatch = useAppDispatch()
 
     const { isFormExpanded } = useSelector(configSelector)
-    const { form, isFetchingCaseNotes } = useSelector(caseNotesSelector)
+    const { form, isFetchingCaseNotes, isFetchingClaimantID } =
+        useSelector(caseNotesSelector)
 
     const Icon = useMemo(() => {
         return isFormExpanded ? FaAngleDoubleLeft : FaAngleDoubleRight
@@ -93,17 +97,22 @@ const SearchForm: React.FC = () => {
         dispatch(fetchCaseNotes())
     }
 
-    useEffect(() => {
-        if (!claimantIDRef.current) return
-
-        claimantIDRef.current?.focus()
+    const fetchInfo = useCallback(async () => {
+        await dispatch(fetchClaimantID())
 
         const today = dayjs()
         const sixMonthsAgo = today.subtract(6, 'month')
+        await dispatch(updateCaseNoteStartDate(sixMonthsAgo.toISOString()))
+        await dispatch(updateCaseNoteEndDate(today.toISOString()))
 
-        dispatch(updateCaseNoteStartDate(sixMonthsAgo.toISOString()))
-        dispatch(updateCaseNoteEndDate(today.toISOString()))
+        if (!claimantIDRef.current) return
+
+        claimantIDRef.current?.focus()
     }, [dispatch])
+
+    useEffect(() => {
+        fetchInfo()
+    }, [fetchInfo])
 
     return (
         <div
@@ -155,7 +164,9 @@ const SearchForm: React.FC = () => {
                             variant="outlined"
                             autoComplete="off"
                             type="text"
-                            disabled={isFetchingCaseNotes}
+                            disabled={
+                                isFetchingCaseNotes || isFetchingClaimantID
+                            }
                             inputRef={claimantIDRef}
                             size="small"
                             placeholder="Enter Claimant ID"
@@ -171,10 +182,14 @@ const SearchForm: React.FC = () => {
                         <DatePicker
                             name="startDate"
                             className="w-full bg-white"
-                            disabled={isFetchingCaseNotes}
+                            disabled={
+                                isFetchingCaseNotes || isFetchingClaimantID
+                            }
                             minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
-                            value={dayjs(form.startDate)}
+                            value={
+                                form.startDate ? dayjs(form.startDate) : null
+                            }
                             onChange={onStartDateChange}
                             reduceAnimations
                         />
@@ -186,10 +201,12 @@ const SearchForm: React.FC = () => {
                         <DatePicker
                             name="endDate"
                             className="w-full bg-white"
-                            disabled={isFetchingCaseNotes}
+                            disabled={
+                                isFetchingCaseNotes || isFetchingClaimantID
+                            }
                             minDate={dayjs(constants.MIN_START_DATE)}
                             disableFuture
-                            value={dayjs(form.endDate)}
+                            value={form.endDate ? dayjs(form.endDate) : null}
                             onChange={onEndDateChange}
                             reduceAnimations
                         />
