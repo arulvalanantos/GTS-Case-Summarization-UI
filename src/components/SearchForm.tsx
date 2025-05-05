@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { useSelector } from 'react-redux'
+import timezone from 'dayjs/plugin/timezone'
 import TextField from '@mui/material/TextField'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -20,6 +22,9 @@ import {
     updateClaimantID
 } from '@/store/reducers/case-notes'
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 const SearchForm: React.FC = () => {
     const claimantIDRef = useRef<HTMLInputElement | null>(null)
 
@@ -37,6 +42,13 @@ const SearchForm: React.FC = () => {
         const endDate = params.get('end_date')
 
         return { claimantID, startDate, endDate }
+    }, [])
+
+    const { minDate, maxDate } = useMemo(() => {
+        return {
+            minDate: dayjs(constants.MIN_START_DATE).startOf('day'),
+            maxDate: dayjs().startOf('day')
+        }
     }, [])
 
     const Icon = useMemo(() => {
@@ -203,7 +215,8 @@ const SearchForm: React.FC = () => {
                             disabled={
                                 isFetchingCaseNotes || isFetchingClaimantID
                             }
-                            minDate={dayjs(constants.MIN_START_DATE)}
+                            minDate={minDate}
+                            maxDate={maxDate}
                             disableFuture
                             value={
                                 form.startDate ? dayjs(form.startDate) : null
@@ -222,7 +235,8 @@ const SearchForm: React.FC = () => {
                             disabled={
                                 isFetchingCaseNotes || isFetchingClaimantID
                             }
-                            minDate={dayjs(constants.MIN_START_DATE)}
+                            minDate={minDate}
+                            maxDate={maxDate}
                             disableFuture
                             value={form.endDate ? dayjs(form.endDate) : null}
                             onChange={onEndDateChange}
