@@ -7,6 +7,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
 import constants from './constants'
 import { showSnackbar } from '@/store/reducers/alert'
+import { ICaseNote } from '@/store/reducers/case-notes/types'
 
 dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
@@ -128,6 +129,37 @@ class Utils {
 
         const digitOnlyRegex = /^\d{0,8}$/
         return digitOnlyRegex.test(claimantID)
+    }
+
+    static generateCaseNotes = (count = 10000): ICaseNote[] => {
+        const processTypes = ['Review', 'Approval', 'Investigation', 'Closure']
+        const statuses = ['Open', 'Closed', 'Pending', 'In Progress']
+        const creators = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve']
+
+        const notes: ICaseNote[] = []
+
+        for (let i = 0; i < count; i++) {
+            const randomDaysAgo = Math.floor(Math.random() * 365)
+            notes.push({
+                Claim_ID: Math.floor(Math.random() * 100000000)
+                    .toString()
+                    .padStart(8, '0'), // 8-digit ID
+                Created_Date: dayjs()
+                    .subtract(randomDaysAgo, 'day')
+                    .toISOString(),
+                Process_Type:
+                    processTypes[
+                        Math.floor(Math.random() * processTypes.length)
+                    ],
+                Created_By:
+                    creators[Math.floor(Math.random() * creators.length)],
+                Message: `Sample case note message #${i + 1}`,
+                Redacted: Math.random() > 0.8 ? 'Yes' : 'No', // 20% chance of being redacted
+                Status: statuses[Math.floor(Math.random() * statuses.length)]
+            })
+        }
+
+        return notes
     }
 }
 
