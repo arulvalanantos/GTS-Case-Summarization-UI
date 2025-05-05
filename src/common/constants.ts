@@ -38,6 +38,7 @@ const constants = {
         UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary',
         UNABLE_TO_FETCH_CLAIMANT_ID: 'Unable to fetch claimant ID',
     },
+    DEFAULT_DATE_FORMAT: 'MM-DD-YYYY',
     MIN_START_DATE: '2013-10-15'
 }
 

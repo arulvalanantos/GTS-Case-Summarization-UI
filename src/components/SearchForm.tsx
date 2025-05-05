@@ -6,15 +6,13 @@ import CircularProgress from '@mui/material/CircularProgress'
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
 
+import Utils from '@/common/utils'
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { showSnackbar } from '@/store/reducers/alert'
+import { fetchCaseNotes } from '@/store/reducers/case-notes/thunk'
 import { configSelector, setFormExpanded } from '@/store/reducers/config'
-import {
-    fetchCaseNotes,
-    fetchClaimantID
-} from '@/store/reducers/case-notes/thunk'
 import {
     caseNotesSelector,
     updateCaseNoteEndDate,
@@ -30,6 +28,16 @@ const SearchForm: React.FC = () => {
     const { isFormExpanded } = useSelector(configSelector)
     const { form, isFetchingCaseNotes, isFetchingClaimantID } =
         useSelector(caseNotesSelector)
+
+    const queryParams = useMemo(() => {
+        const url = new URL(window.location.href)
+        const params = new URLSearchParams(url.search)
+        const claimantID = params.get('claimant_id')
+        const startDate = params.get('start_date')
+        const endDate = params.get('end_date')
+
+        return { claimantID, startDate, endDate }
+    }, [])
 
     const Icon = useMemo(() => {
         return isFormExpanded ? FaAngleDoubleLeft : FaAngleDoubleRight
@@ -51,9 +59,7 @@ const SearchForm: React.FC = () => {
             return
         }
 
-        // Strict: Only digits (0-9), max 8 characters
-        const digitOnlyRegex = /^\d{0,8}$/
-        if (!digitOnlyRegex.test(value)) return
+        if (Utils.isValidClaimantID(value)) return
 
         dispatch(updateClaimantID(value))
     }
@@ -97,18 +103,30 @@ const SearchForm: React.FC = () => {
         dispatch(fetchCaseNotes())
     }
 
-    const fetchInfo = useCallback(async () => {
-        await dispatch(fetchClaimantID())
+    const populateStartAndEndDate = useCallback(async () => {
+        const startDate = queryParams.startDate
+        const endDate = queryParams.endDate
 
-        const today = dayjs()
-        const sixMonthsAgo = today.subtract(6, 'month')
-        await dispatch(updateCaseNoteStartDate(sixMonthsAgo.toISOString()))
-        await dispatch(updateCaseNoteEndDate(today.toISOString()))
+        const dateRange = Utils.populateStartEndDate(startDate, endDate)
+        await dispatch(updateCaseNoteStartDate(dateRange.startDate))
+        await dispatch(updateCaseNoteEndDate(dateRange.endDate))
+    }, [dispatch, queryParams.startDate, queryParams.endDate])
+
+    const populateClaimantID = useCallback(async () => {
+        const claimantID = queryParams.claimantID
+        if (!claimantID || !Utils.isValidClaimantID(claimantID)) return
+
+        await dispatch(updateClaimantID(claimantID))
+    }, [dispatch, queryParams.claimantID])
+
+    const fetchInfo = useCallback(async () => {
+        await populateClaimantID()
+        await populateStartAndEndDate()
 
         if (!claimantIDRef.current) return
 
         claimantIDRef.current?.focus()
-    }, [dispatch])
+    }, [populateStartAndEndDate, populateClaimantID])
 
     useEffect(() => {
         fetchInfo()
