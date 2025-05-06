@@ -71,7 +71,7 @@ const SearchForm: React.FC = () => {
             return
         }
 
-        if (Utils.isValidClaimantID(value)) return
+        if (!Utils.isValidClaimantID(value)) return
 
         dispatch(updateClaimantID(value))
     }
