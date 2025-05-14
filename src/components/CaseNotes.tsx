@@ -240,15 +240,21 @@ const CaseNotes: React.FC = () => {
                             className="w-full"
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
+                            disabled={!caseNotes.length}
                             slotProps={{
                                 input: {
                                     startAdornment: (
                                         <FaSearch
-                                            className={
-                                                isFocused
-                                                    ? 'text-primary mr-2'
-                                                    : 'text-gray-500 mr-2'
-                                            }
+                                            className={`mr-2 
+                                                ${
+                                                    isFocused &&
+                                                    caseNotes.length
+                                                        ? 'text-primary '
+                                                        : !caseNotes.length
+                                                        ? 'text-gray-300'
+                                                        : 'text-gray-500'
+                                                }
+                                            `}
                                         />
                                     )
                                 }
