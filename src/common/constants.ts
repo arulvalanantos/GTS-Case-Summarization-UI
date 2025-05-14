@@ -43,7 +43,8 @@ const constants = {
         UNABLE_TO_FETCH_ADMIN_CONFIG: 'Unable to fetch admin configuration'
     },
     VALIDATION_MESSAGE: {
-        END_DATE_BEFORE_START_DATE: 'End date cannot be earlier than the start date.'
+        END_DATE_BEFORE_START_DATE:
+            'End date cannot be earlier than the start date.'
     },
     DEFAULT_FALLBACK_API_TIMEOUT: 10,
     DEFAULT_DATE_FORMAT: 'MM-DD-YYYY',
