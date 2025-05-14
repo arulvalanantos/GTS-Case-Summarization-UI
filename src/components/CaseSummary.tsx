@@ -148,92 +148,96 @@ const CaseSummary: React.FC = () => {
     }, [isResizing])
 
     return (
-        <section
-            id="case-summary"
-            className={`flex flex-col overflow-hidden ${
-                isResizing ? '' : 'transition-height duration-300 ease-in-out'
-            } border-b-1 border-gray-200`}
-            style={{
-                height: heightInfo.currentHeight,
-                minHeight: heightInfo.minHeight,
-                maxHeight: heightInfo.maxHeight
-            }}
-        >
-            <div className="flex flex-row items-center justify-between bg-gray-100 px-3 py-2">
-                <div className="flex flex-row items-center gap-2">
-                    <SectionTitle title={constants.TITLE.CASE_SUMMARY} />
-                    <button
-                        type="button"
-                        onClick={toggleExpand}
-                        className="cursor-pointer"
-                        title={isSummaryExpanded ? 'Collapse' : 'Expand'}
-                    >
-                        <IoIosArrowDown
-                            size={16}
-                            className={`text-gray-500 transition-transform duration-300 ease-in-out ${
-                                isSummaryExpanded ? 'rotate-180' : ''
-                            }`}
-                        />
-                    </button>
-                </div>
-                {isSummaryExpanded && (
-                    <div className="flex flex-row items-center gap-1">
+        <>
+            <section
+                id="case-summary"
+                className={`flex flex-col overflow-hidden ${
+                    isResizing
+                        ? ''
+                        : 'transition-height duration-300 ease-in-out'
+                }`}
+                style={{
+                    height: heightInfo.currentHeight,
+                    minHeight: heightInfo.minHeight,
+                    maxHeight: heightInfo.maxHeight
+                }}
+            >
+                <div className="flex flex-row items-center justify-between bg-gray-100 px-3 py-2">
+                    <div className="flex flex-row items-center gap-2">
+                        <SectionTitle title={constants.TITLE.CASE_SUMMARY} />
                         <button
-                            title="Copy Summary"
                             type="button"
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
-                            onClick={handleCopy}
-                            disabled={!summary}
+                            onClick={toggleExpand}
+                            className="cursor-pointer"
+                            title={isSummaryExpanded ? 'Collapse' : 'Expand'}
                         >
-                            <FaRegClone
-                                size={12}
-                                className="group-hover:scale-95 transition duration-500 ease"
-                            />
-                        </button>
-                        <button
-                            onClick={generateSummary}
-                            title="Generate Summary"
-                            type="button"
-                            disabled={!caseNotes.length}
-                            className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
-                        >
-                            <FaArrowRotateLeft
-                                size={12}
-                                className="group-hover:rotate-360 transition duration-500 ease-in-out"
+                            <IoIosArrowDown
+                                size={16}
+                                className={`text-gray-500 transition-transform duration-300 ease-in-out ${
+                                    isSummaryExpanded ? 'rotate-180' : ''
+                                }`}
                             />
                         </button>
                     </div>
-                )}
-            </div>
-            {isSummaryExpanded && (
-                <div
-                    className={`px-3 py-2 h-full overflow-auto ${
-                        !summary || isFetchingSummary ? 'my-5' : ''
-                    }`}
-                >
-                    {isFetchingSummary && (
-                        <div className="w-full h-full flex items-center justify-center">
-                            <CircularProgress size={16} />
-                        </div>
-                    )}
-                    {summary && !isFetchingSummary && (
-                        <div>
-                            <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
-                                {summary}
-                            </p>
+                    {isSummaryExpanded && (
+                        <div className="flex flex-row items-center gap-1">
+                            <button
+                                title="Copy Summary"
+                                type="button"
+                                className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
+                                onClick={handleCopy}
+                                disabled={!summary}
+                            >
+                                <FaRegClone
+                                    size={12}
+                                    className="group-hover:scale-95 transition duration-500 ease"
+                                />
+                            </button>
+                            <button
+                                onClick={generateSummary}
+                                title="Generate Summary"
+                                type="button"
+                                disabled={!caseNotes.length}
+                                className="bg-primary w-6 h-6 text-white rounded-sm flex items-center justify-center text-sm cursor-pointer group disabled:bg-gray disabled:cursor-not-allowed transition-all duration-500 ease-in"
+                            >
+                                <FaArrowRotateLeft
+                                    size={12}
+                                    className="group-hover:rotate-360 transition duration-500 ease-in-out"
+                                />
+                            </button>
                         </div>
                     )}
                 </div>
-            )}
+                {isSummaryExpanded && (
+                    <div
+                        className={`px-3 py-2 h-full overflow-auto ${
+                            !summary || isFetchingSummary ? 'my-5' : ''
+                        }`}
+                    >
+                        {isFetchingSummary && (
+                            <div className="w-full h-full flex items-center justify-center">
+                                <CircularProgress size={16} />
+                            </div>
+                        )}
+                        {summary && !isFetchingSummary && (
+                            <div>
+                                <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
+                                    {summary}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </section>
             {isSummaryExpanded && isCaseNotesExpanded && (
                 <div
                     onMouseDown={startResizing}
-                    className={`h-1 cursor-row-resize ${
+                    className={`h-[2px] cursor-row-resize ${
                         isResizing ? 'bg-primary' : 'bg-gray-300'
                     } hover:bg-primary`}
                 />
             )}
-        </section>
+        </>
     )
 }
 

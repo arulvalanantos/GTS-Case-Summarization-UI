@@ -156,15 +156,22 @@ const CaseNotes: React.FC = () => {
     return (
         <section
             id="case-notes"
+            draggable={false}
             className={`${
                 isViewMode ? 'hidden' : 'flex'
             } flex-col transition-height duration-500 ease-in-out ${
                 isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
             }`}
         >
-            <div className="flex flex-col gap-3 flex-none">
-                <div className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0">
-                    <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-col gap-2 flex-none">
+                <div
+                    draggable={false}
+                    className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0"
+                >
+                    <div
+                        draggable={false}
+                        className="flex flex-row items-center gap-2"
+                    >
                         <SectionTitle title={constants.TITLE.CASE_NOTES} />
                         {configuration.is_case_summary_enabled && (
                             <button
