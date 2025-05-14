@@ -13,7 +13,9 @@ const Loader: React.FC<LoaderProps> = ({ message = '' }) => {
                     title="Fetching Admin Configuration"
                 />
                 {message && (
-                    <p className="italic font-light text-base">{message}</p>
+                    <p className="italic font-light text-base text-gray">
+                        {message}
+                    </p>
                 )}
             </div>
         </div>

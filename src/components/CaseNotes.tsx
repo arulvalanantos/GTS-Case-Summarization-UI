@@ -2,24 +2,25 @@ import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 import { FaSearch } from 'react-icons/fa'
 import TextField from '@mui/material/TextField'
-// import { IoIosArrowDown } from 'react-icons/io'
+import { IoIosArrowDown } from 'react-icons/io'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa6'
-import CircularProgress from '@mui/material/CircularProgress'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { MdOutlineDateRange, MdOutlineNumbers } from 'react-icons/md'
 
+import Loader from './Loader'
 import CaseNote from './CaseNote'
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
 import { noOfRowsPerPages } from '@/common/static'
+import { configSelector } from '@/store/reducers/config'
 import {
     caseNotesSelector,
     nextPage,
     previousPage,
     setNoOfRowsPerPage,
-    // toggleCaseNotes,
+    toggleCaseNotes,
     toggleSortClaimantIDOrder,
     toggleSortDateOrder,
     updateSearchText
@@ -38,6 +39,8 @@ const CaseNotes: React.FC = () => {
         isViewMode,
         sort: { date: dateSort, claimantID: claimantIDSort }
     } = useSelector(caseNotesSelector)
+
+    const { configuration } = useSelector(configSelector)
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -118,9 +121,9 @@ const CaseNotes: React.FC = () => {
         )
     }
 
-    // const handleCaseNoteExpandsion = () => {
-    //     dispatch(toggleCaseNotes())
-    // }
+    const handleCaseNoteExpandsion = () => {
+        dispatch(toggleCaseNotes())
+    }
 
     const handleCaseNoteDateSort = (event: React.MouseEvent) => {
         event.stopPropagation()
@@ -163,19 +166,24 @@ const CaseNotes: React.FC = () => {
                 <div className="bg-gray-100 p-2 px-3 flex flex-row items-center justify-between gap-2 sm:gap-0">
                     <div className="flex flex-row items-center gap-2">
                         <SectionTitle title={constants.TITLE.CASE_NOTES} />
-                        {/* <button
-                            type="button"
-                            onClick={handleCaseNoteExpandsion}
-                            className="cursor-pointer"
-                            title={isCaseNotesExpanded ? 'Collapse' : 'Expand'}
-                        >
-                            <IoIosArrowDown
-                                size={16}
-                                className={`text-gray-500 transition-transform duration-300 ease-in-out ${
-                                    isCaseNotesExpanded ? 'rotate-180' : ''
-                                }`}
-                            />
-                        </button> */}
+                        {configuration.is_case_summary_enabled && (
+                            <button
+                                type="button"
+                                onClick={handleCaseNoteExpandsion}
+                                className="cursor-pointer"
+                                title={
+                                    isCaseNotesExpanded ? 'Collapse' : 'Expand'
+                                }
+                                disabled={isFetchingCaseNotes}
+                            >
+                                <IoIosArrowDown
+                                    size={16}
+                                    className={`text-gray-500 disabled:text-gray-100 transition-transform duration-300 ease-in-out ${
+                                        isCaseNotesExpanded ? 'rotate-180' : ''
+                                    }`}
+                                />
+                            </button>
+                        )}
                     </div>
                     {isCaseNotesExpanded && (
                         <div className="flex flex-row gap-3">
@@ -256,12 +264,12 @@ const CaseNotes: React.FC = () => {
                     ) : (
                         <div className="bg-white p-2 flex-1 min-h-0 w-full overflow-auto text-primary">
                             {isFetchingCaseNotes ? (
-                                <div className="flex items-center justify-center w-full h-full">
-                                    <CircularProgress
-                                        color="inherit"
-                                        size={16}
-                                    />
-                                </div>
+                                <Loader
+                                    message={
+                                        constants.LOADER_MESSAGE
+                                            .FETCHING_CASE_NOTES
+                                    }
+                                />
                             ) : (
                                 <p className="text-xs font-light text-gray flex items-center justify-center w-full h-full select-none">
                                     No case notes found

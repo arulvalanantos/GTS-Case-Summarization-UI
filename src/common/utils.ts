@@ -123,11 +123,15 @@ class Utils {
         }
     }
 
-    static isValidClaimantID = (claimantID: string): boolean => {
+    static isValidClaimantID = (
+        claimantID: string,
+        minLength = 1,
+        maxLength = 8
+    ): boolean => {
         if (claimantID === null || claimantID === undefined) return false
-        if (claimantID === '') return true
+        if (claimantID === '') return minLength === 0
 
-        const digitOnlyRegex = /^\d{0,8}$/
+        const digitOnlyRegex = new RegExp(`^\\d{${minLength},${maxLength}}$`)
         return digitOnlyRegex.test(claimantID)
     }
 
@@ -160,6 +164,12 @@ class Utils {
         }
 
         return notes
+    }
+
+    static getAPIOptions = (timeout = 1) => {
+        return {
+            timeout: timeout * 1000
+        }
     }
 }
 

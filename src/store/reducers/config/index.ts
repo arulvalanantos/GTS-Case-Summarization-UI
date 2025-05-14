@@ -6,13 +6,13 @@ import { fetchAdminConfig } from './thunk'
 import { AdminConfiguration, configInitialState } from './types'
 
 const adminConfigInitialState = {
-    claimant_id_max_length: 0,
-    claimant_id_min_length: 0,
-    default_date_range_in_months: 0,
-    is_case_summary_enabled: false,
-    max_date_range_diff_in_months: 0,
-    max_goback_year_as_start_date: 0,
-    rest_api_timeout_in_seconds: 180,
+    claimant_id_min_length: 1,
+    claimant_id_max_length: 8,
+    default_date_range_in_months: 6,
+    is_case_summary_enabled: true,
+    max_date_range_diff_in_months: 6,
+    max_goback_year_as_start_date: 2013,
+    rest_api_timeout_in_seconds: 10,
     status_code: 0
 }
 

@@ -30,7 +30,7 @@ const SearchForm: React.FC = () => {
 
     const dispatch = useAppDispatch()
 
-    const { isFormExpanded } = useSelector(configSelector)
+    const { isFormExpanded, configuration } = useSelector(configSelector)
     const { form, isFetchingCaseNotes, isFetchingClaimantID } =
         useSelector(caseNotesSelector)
 
@@ -71,7 +71,14 @@ const SearchForm: React.FC = () => {
             return
         }
 
-        if (!Utils.isValidClaimantID(value)) return
+        if (
+            !Utils.isValidClaimantID(
+                value,
+                configuration.claimant_id_min_length,
+                configuration.claimant_id_max_length
+            )
+        )
+            return
 
         dispatch(updateClaimantID(value))
     }
@@ -126,10 +133,18 @@ const SearchForm: React.FC = () => {
 
     const populateClaimantID = useCallback(async () => {
         const claimantID = queryParams.claimantID
-        if (!claimantID || !Utils.isValidClaimantID(claimantID)) return
+        if (
+            !claimantID ||
+            !Utils.isValidClaimantID(
+                claimantID,
+                configuration.claimant_id_min_length,
+                configuration.claimant_id_max_length
+            )
+        )
+            return
 
         await dispatch(updateClaimantID(claimantID))
-    }, [dispatch, queryParams.claimantID])
+    }, [dispatch, queryParams.claimantID, configuration])
 
     const fetchInfo = useCallback(async () => {
         await populateClaimantID()

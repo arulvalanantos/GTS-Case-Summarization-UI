@@ -5,7 +5,7 @@ const constants = {
         CASE_SUMMARY_HEIGHT: 'case_summary_height'
     },
     API_CONFIG: {
-        AXIOS_TIMEOUT: 180000, // 3 minutes
+        DEFAULT_AXIOS_TIMEOUT: 10000,
         X_REQUEST_HEADER: 'X-Request-ID',
         AXIOS_TIMEOUT_MESSAGE: 'Timeout exceeded',
         AUTHORIZATION: 'Authorization'
@@ -45,7 +45,8 @@ const constants = {
     DEFAULT_DATE_FORMAT: 'MM-DD-YYYY',
     MIN_START_DATE: '2013-10-15',
     LOADER_MESSAGE: {
-        FETCHING_ADMIN_CONFIG: 'Fetching Admin Configuration'
+        FETCHING_ADMIN_CONFIG: 'Fetching Admin Configuration',
+        FETCHING_CASE_NOTES: 'Fetching Case Notes'
     }
 }
 

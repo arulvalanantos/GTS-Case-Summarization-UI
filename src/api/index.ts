@@ -4,7 +4,7 @@ import constants from '@common/constants'
 
 const createConfig = () => ({
     baseURL: import.meta.env.VITE_APP_API_BASE_URL,
-    timeout: constants.API_CONFIG.AXIOS_TIMEOUT,
+    timeout: constants.API_CONFIG.DEFAULT_AXIOS_TIMEOUT,
     timeoutErrorMessage: constants.API_CONFIG.AXIOS_TIMEOUT_MESSAGE
 })
 

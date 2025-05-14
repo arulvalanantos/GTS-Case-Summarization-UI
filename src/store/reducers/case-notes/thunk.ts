@@ -10,8 +10,14 @@ export const fetchCaseNotes = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const state = thunkAPI.getState() as RootState
+
             const { form } = state.caseNotes
-            const response = await CaseNotesService.fetchCaseNotes(form)
+            const { rest_api_timeout_in_seconds } = state.config.configuration
+
+            const response = await CaseNotesService.fetchCaseNotes(
+                form,
+                rest_api_timeout_in_seconds
+            )
 
             const caseNotes = response?.LookUpNotes?.Notes ?? []
 
