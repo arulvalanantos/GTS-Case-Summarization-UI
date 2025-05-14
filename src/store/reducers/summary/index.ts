@@ -1,5 +1,5 @@
 import constants from '@/common/constants'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { fetchSummary } from './thunk'
 import { RootState } from '@/store/types'
@@ -25,7 +25,7 @@ const summarySlice = createSlice({
                 state.isFetchingSummary = true
                 state.summary = ''
             })
-            .addCase(fetchSummary.fulfilled, (state, action) => {
+            .addCase(fetchSummary.fulfilled, (state, action: PayloadAction<string>) => {
                 state.summary = action.payload
                 state.isFetchingSummary = false
             })

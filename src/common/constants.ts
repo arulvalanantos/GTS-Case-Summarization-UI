@@ -42,7 +42,13 @@ const constants = {
         UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary',
         UNABLE_TO_FETCH_ADMIN_CONFIG: 'Unable to fetch admin configuration'
     },
+    VALIDATION_MESSAGE: {
+        END_DATE_BEFORE_START_DATE: 'End date cannot be earlier than the start date.'
+    },
+    DEFAULT_FALLBACK_API_TIMEOUT: 10,
     DEFAULT_DATE_FORMAT: 'MM-DD-YYYY',
+    DEFAULT_DATE_RANGE_DIFF_IN_MONTHS: 6,
+    MAX_GO_BACK_YEAR: 2013,
     MIN_START_DATE: '2013-10-15',
     LOADER_MESSAGE: {
         FETCHING_ADMIN_CONFIG: 'Fetching Admin Configuration',

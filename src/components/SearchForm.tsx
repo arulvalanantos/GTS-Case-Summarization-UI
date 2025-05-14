@@ -46,10 +46,12 @@ const SearchForm: React.FC = () => {
 
     const { minDate, maxDate } = useMemo(() => {
         return {
-            minDate: dayjs(constants.MIN_START_DATE).startOf('day'),
+            minDate: dayjs(
+                `01-01-${configuration.max_goback_year_as_start_date}`
+            ).startOf('day'),
             maxDate: dayjs().startOf('day')
         }
-    }, [])
+    }, [configuration.max_goback_year_as_start_date])
 
     const Icon = useMemo(() => {
         return isFormExpanded ? FaAngleDoubleLeft : FaAngleDoubleRight
@@ -98,23 +100,15 @@ const SearchForm: React.FC = () => {
         const end = dayjs(form.end_date)
 
         if (end.isBefore(start)) {
-            const message = 'End date cannot be before start date.'
-            dispatch(showSnackbar(message))
-            return
-        }
-
-        const diffInYears = end.diff(start, 'year', true)
-        if (diffInYears > 1) {
             const message =
-                'The gap between Start date and End date must not exceed 1 year.'
-
+                constants.VALIDATION_MESSAGE.END_DATE_BEFORE_START_DATE
             dispatch(showSnackbar(message))
             return
         }
 
-        const diffInDays = end.diff(start, 'day')
-        if (diffInDays < 0) {
-            const message = 'Invalid date range selected.'
+        const diffInMonths = end.diff(start, 'month', true)
+        if (diffInMonths > configuration.max_date_range_diff_in_months) {
+            const message = `Start and end dates must be within ${configuration.max_date_range_diff_in_months} months of each other.`
             dispatch(showSnackbar(message))
             return
         }
@@ -126,10 +120,15 @@ const SearchForm: React.FC = () => {
         const startDate = queryParams.startDate
         const endDate = queryParams.endDate
 
-        const dateRange = Utils.populateStartEndDate(startDate, endDate)
+        const dateRange = Utils.populateStartEndDate(
+            startDate,
+            endDate,
+            configuration.default_date_range_in_months,
+            configuration.max_goback_year_as_start_date
+        )
         await dispatch(updateCaseNoteStartDate(dateRange.startDate))
         await dispatch(updateCaseNoteEndDate(dateRange.endDate))
-    }, [dispatch, queryParams.startDate, queryParams.endDate])
+    }, [dispatch, queryParams.startDate, queryParams.endDate, configuration])
 
     const populateClaimantID = useCallback(async () => {
         const claimantID = queryParams.claimantID

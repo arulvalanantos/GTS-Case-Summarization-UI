@@ -10,7 +10,7 @@ const adminConfigInitialState = {
     claimant_id_max_length: 8,
     default_date_range_in_months: 6,
     is_case_summary_enabled: true,
-    max_date_range_diff_in_months: 6,
+    max_date_range_diff_in_months: 12,
     max_goback_year_as_start_date: 2013,
     rest_api_timeout_in_seconds: 10,
     status_code: 0

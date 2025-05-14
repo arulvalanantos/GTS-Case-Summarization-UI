@@ -18,7 +18,7 @@ export const fetchSummary = createAsyncThunk(
                 form,
                 rest_api_timeout_in_seconds
             )
-            return response
+            return response.summary ?? ''
         } catch (error) {
             return Utils.handleThunkRejection(
                 error,

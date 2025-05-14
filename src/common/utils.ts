@@ -82,11 +82,13 @@ class Utils {
 
     static populateStartEndDate = (
         start: string | null,
-        end: string | null
+        end: string | null,
+        defaultDateRangeInMonths = constants.DEFAULT_DATE_RANGE_DIFF_IN_MONTHS,
+        defaultMaxStartDate = constants.MAX_GO_BACK_YEAR
     ) => {
         const today = dayjs().startOf('day')
-        const sixMonthsAgo = today.subtract(6, 'months')
-        const minDate = dayjs(constants.MIN_START_DATE).startOf('day')
+        const sixMonthsAgo = today.subtract(defaultDateRangeInMonths, 'months')
+        const minDate = dayjs(`01-01-${defaultMaxStartDate}`).startOf('day')
 
         let finalizedStartDate = sixMonthsAgo
         let finalizedEndDate = today
@@ -166,7 +168,9 @@ class Utils {
         return notes
     }
 
-    static getAPIOptions = (timeout = 1) => {
+    static getAPIOptions = (
+        timeout = constants.DEFAULT_FALLBACK_API_TIMEOUT
+    ) => {
         return {
             timeout: timeout * 1000
         }
