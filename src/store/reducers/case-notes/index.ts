@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { fetchCaseNotes } from './thunk'
 import { RootState } from '@/store/types'
 import constants from '@/common/constants'
-import { fetchCaseNotes, fetchClaimantID } from './thunk'
 import { CaseNotesInitialState, ICaseNote } from './types'
 
 const initialState: CaseNotesInitialState = {
@@ -21,9 +21,9 @@ const initialState: CaseNotesInitialState = {
         claimantID: 'desc'
     },
     form: {
-        claimantID: '',
-        startDate: null,
-        endDate: null
+        claimant_id: '',
+        start_date: null,
+        end_date: null
     }
 }
 
@@ -49,19 +49,19 @@ const caseNotesSlice = createSlice({
                 state.sort.claimantID === 'asc' ? 'desc' : 'asc'
         },
         updateClaimantID: (state, action: PayloadAction<string>) => {
-            state.form.claimantID = action.payload
+            state.form.claimant_id = action.payload
         },
         updateCaseNoteStartDate: (
             state,
             action: PayloadAction<string | null>
         ) => {
-            state.form.startDate = action.payload
+            state.form.start_date = action.payload
         },
         updateCaseNoteEndDate: (
             state,
             action: PayloadAction<string | null>
         ) => {
-            state.form.endDate = action.payload
+            state.form.end_date = action.payload
         },
         previousPage: (state) => {
             if (state.currentPage > 1) {
@@ -109,19 +109,6 @@ const caseNotesSlice = createSlice({
             .addCase(fetchCaseNotes.rejected, (state) => {
                 state.caseNotes = []
                 state.isFetchingCaseNotes = false
-            })
-            .addCase(fetchClaimantID.pending, (state) => {
-                state.isFetchingClaimantID = true
-            })
-            .addCase(
-                fetchClaimantID.fulfilled,
-                (state, action: PayloadAction<string>) => {
-                    state.isFetchingClaimantID = false
-                    state.form.claimantID = action.payload ?? ''
-                }
-            )
-            .addCase(fetchClaimantID.rejected, (state) => {
-                state.isFetchingClaimantID = false
             })
     }
 })

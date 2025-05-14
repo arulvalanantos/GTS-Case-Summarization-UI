@@ -10,7 +10,11 @@ const constants = {
         AXIOS_TIMEOUT_MESSAGE: 'Timeout exceeded',
         AUTHORIZATION: 'Authorization'
     },
-    ENDPOINTS: {},
+    ENDPOINTS: {
+        GET_NOTES: '/get_notes',
+        GET_APP_CONFIG: '/get_app_configs_from_genesys',
+        SUMMARISE_NOTES: '/summarise_notes'
+    },
     STORE: {
         CONFIG: 'config',
         SUMMARY: 'summary',
@@ -36,10 +40,13 @@ const constants = {
         FAILED_TO_COPY: 'Failed to copy text: ',
         UNABLE_TO_FETCH_CASE_NOTES: 'Unable to fetch case notes',
         UNABLE_TO_FETCH_SUMMARY: 'Unable to fetch summary',
-        UNABLE_TO_FETCH_CLAIMANT_ID: 'Unable to fetch claimant ID',
+        UNABLE_TO_FETCH_ADMIN_CONFIG: 'Unable to fetch admin configuration'
     },
     DEFAULT_DATE_FORMAT: 'MM-DD-YYYY',
-    MIN_START_DATE: '2013-10-15'
+    MIN_START_DATE: '2013-10-15',
+    LOADER_MESSAGE: {
+        FETCHING_ADMIN_CONFIG: 'Fetching Admin Configuration'
+    }
 }
 
 export default Object.freeze(constants)

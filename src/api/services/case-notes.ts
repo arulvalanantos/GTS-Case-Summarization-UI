@@ -1,12 +1,14 @@
+import API from '../helpers'
+import constants from '@/common/constants'
 import {
     CaseNoteFetchRequest,
     CaseNoteFetchResponse
 } from '@/store/reducers/case-notes/types'
-import API from '../helpers'
 
 class CaseNotesService {
     async fetchCaseNotes(payload: CaseNoteFetchRequest) {
-        const endpoint = '/case-notes'
+        const endpoint = constants.ENDPOINTS.GET_NOTES
+
         return await API.postRequest<
             CaseNoteFetchResponse,
             CaseNoteFetchRequest

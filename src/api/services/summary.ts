@@ -1,8 +1,9 @@
 import API from '../helpers'
+import constants from '@/common/constants'
 
 class SummaryService {
     async getSummary() {
-        const endpoint = '/summary'
+        const endpoint = constants.ENDPOINTS.SUMMARISE_NOTES
         return await API.getRequest<string>(endpoint)
     }
 }

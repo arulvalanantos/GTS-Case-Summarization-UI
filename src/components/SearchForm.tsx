@@ -87,8 +87,8 @@ const SearchForm: React.FC = () => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
 
-        const start = dayjs(form.startDate)
-        const end = dayjs(form.endDate)
+        const start = dayjs(form.start_date)
+        const end = dayjs(form.end_date)
 
         if (end.isBefore(start)) {
             const message = 'End date cannot be before start date.'
@@ -201,7 +201,7 @@ const SearchForm: React.FC = () => {
                             size="small"
                             placeholder="Enter Claimant ID"
                             className="w-full"
-                            value={form.claimantID}
+                            value={form.claimant_id}
                             onChange={handleChange}
                         />
                     </div>
@@ -219,7 +219,7 @@ const SearchForm: React.FC = () => {
                             maxDate={maxDate}
                             disableFuture
                             value={
-                                form.startDate ? dayjs(form.startDate) : null
+                                form.start_date ? dayjs(form.start_date) : null
                             }
                             onChange={onStartDateChange}
                             reduceAnimations
@@ -238,14 +238,14 @@ const SearchForm: React.FC = () => {
                             minDate={minDate}
                             maxDate={maxDate}
                             disableFuture
-                            value={form.endDate ? dayjs(form.endDate) : null}
+                            value={form.end_date ? dayjs(form.end_date) : null}
                             onChange={onEndDateChange}
                             reduceAnimations
                         />
                     </div>
                     <button
                         type="submit"
-                        disabled={isFetchingCaseNotes || !form.claimantID}
+                        disabled={isFetchingCaseNotes || !form.claimant_id}
                         className="bg-primary disabled:bg-gray disabled:cursor-not-allowed text-white py-2 px-3 rounded text-sm cursor-pointer hover:scale-98 transition-transform duration-200 ease-in-out flex items-center gap-2 justify-center"
                     >
                         {isFetchingCaseNotes && (

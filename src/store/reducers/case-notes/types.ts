@@ -14,9 +14,9 @@ export type CaseNotesInitialState = {
         claimantID: 'asc' | 'desc'
     }
     form: {
-        claimantID: string
-        startDate: string | null
-        endDate: string | null
+        claimant_id: string
+        start_date: string | null
+        end_date: string | null
     }
 }
 
@@ -31,9 +31,9 @@ export type ICaseNote = {
 }
 
 export type CaseNoteFetchRequest = {
-    claimantID: string
-    startDate: string | null
-    endDate: string | null
+    claimant_id: string
+    start_date: string | null
+    end_date: string | null
 }
 
 export type CaseNoteFetchResponse = {

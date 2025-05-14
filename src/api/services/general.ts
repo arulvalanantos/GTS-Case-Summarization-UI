@@ -1,15 +1,12 @@
-import { GetClaimantIDResponse } from '@/store/reducers/case-notes/types'
 import API from '../helpers'
+import constants from '@/common/constants'
+import { AdminConfiguration } from '@/store/reducers/config/types'
 
 class GeneralService {
-    async getClaimantID() {
-        const endpoint = '/claimant-id'
-        return await API.getRequest<GetClaimantIDResponse>(endpoint)
-    }
-
     async getAdminConfig() {
-        const endpoint = '/admin-config'
-        return await API.getRequest<string>(endpoint)
+        const endpoint = constants.ENDPOINTS.GET_APP_CONFIG
+        const query = `?app_configs_key=case_notes`
+        return await API.getRequest<AdminConfiguration>(endpoint + query)
     }
 }
 
