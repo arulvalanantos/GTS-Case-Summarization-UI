@@ -2,6 +2,7 @@ export type summaryInitialState = {
     isFetchingSummary: boolean
     isSummaryExpanded: boolean
     summary: string
+    notes: string
 }
 
 export type SummaryRequest = {
@@ -11,5 +12,6 @@ export type SummaryRequest = {
 }
 
 export type SummaryResponse = {
-    summary: string
+    message: string
+    notes: string
 }

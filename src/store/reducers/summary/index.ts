@@ -3,12 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { fetchSummary } from './thunk'
 import { RootState } from '@/store/types'
-import { summaryInitialState } from './types'
+import { summaryInitialState, SummaryResponse } from './types'
 
 const initialState: summaryInitialState = {
     isFetchingSummary: false,
     isSummaryExpanded: true,
-    summary: ''
+    summary: '',
+    notes: ''
 }
 
 const summarySlice = createSlice({
@@ -27,8 +28,9 @@ const summarySlice = createSlice({
             })
             .addCase(
                 fetchSummary.fulfilled,
-                (state, action: PayloadAction<string>) => {
-                    state.summary = action.payload
+                (state, action: PayloadAction<SummaryResponse>) => {
+                    state.summary = action.payload.message
+                    state.notes = action.payload.notes
                     state.isFetchingSummary = false
                 }
             )
