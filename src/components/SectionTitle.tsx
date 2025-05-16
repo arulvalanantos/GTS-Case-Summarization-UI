@@ -5,7 +5,10 @@ type SectionTitleProps = {
     className?: string
 }
 
-const SectionTitle: React.FC<SectionTitleProps> = ({ title, className = '' }) => {
+const SectionTitle: React.FC<SectionTitleProps> = ({
+    title,
+    className = ''
+}) => {
     return (
         <h3
             draggable={false}

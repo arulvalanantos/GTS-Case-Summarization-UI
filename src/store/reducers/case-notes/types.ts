@@ -1,3 +1,9 @@
+export type SearchForm = {
+    claimant_id: string
+    start_date: string | null
+    end_date: string | null
+}
+
 export type CaseNotesInitialState = {
     isFetchingCaseNotes: boolean
     isFetchingClaimantID: boolean
@@ -13,11 +19,8 @@ export type CaseNotesInitialState = {
         date: 'asc' | 'desc'
         claimantID: 'asc' | 'desc'
     }
-    form: {
-        claimant_id: string
-        start_date: string | null
-        end_date: string | null
-    }
+    form: SearchForm
+    currentFormInfo: SearchForm
 }
 
 export type ICaseNote = {

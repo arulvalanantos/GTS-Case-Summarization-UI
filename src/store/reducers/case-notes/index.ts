@@ -5,6 +5,12 @@ import { RootState } from '@/store/types'
 import constants from '@/common/constants'
 import { CaseNotesInitialState, ICaseNote } from './types'
 
+const searchFormInitialState = {
+    claimant_id: '',
+    start_date: null,
+    end_date: null
+}
+
 const initialState: CaseNotesInitialState = {
     isFetchingCaseNotes: false,
     isFetchingClaimantID: false,
@@ -20,11 +26,8 @@ const initialState: CaseNotesInitialState = {
         date: 'desc',
         claimantID: 'desc'
     },
-    form: {
-        claimant_id: '',
-        start_date: null,
-        end_date: null
-    }
+    form: searchFormInitialState,
+    currentFormInfo: searchFormInitialState
 }
 
 const caseNotesSlice = createSlice({
@@ -98,12 +101,14 @@ const caseNotesSlice = createSlice({
             .addCase(fetchCaseNotes.pending, (state) => {
                 state.isFetchingCaseNotes = true
                 state.caseNotes = []
+                state.currentFormInfo = searchFormInitialState
             })
             .addCase(
                 fetchCaseNotes.fulfilled,
                 (state, action: PayloadAction<ICaseNote[]>) => {
                     state.caseNotes = action.payload
                     state.isFetchingCaseNotes = false
+                    state.currentFormInfo = state.form
                 }
             )
             .addCase(fetchCaseNotes.rejected, (state) => {

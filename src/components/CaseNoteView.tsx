@@ -145,7 +145,7 @@ const CaseNoteView: React.FC = () => {
                         <span>Created At:</span>
                         <span>
                             {dayjs(caseNote?.Created_Date).format(
-                                'MM-DD-YYYY'
+                                constants.DEFAULT_DATE_FORMAT
                             ) || ''}
                         </span>
                     </p>

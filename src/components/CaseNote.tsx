@@ -48,7 +48,7 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                         <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
                             <p className="text-primary ">
                                 {dayjs(caseNote.Created_Date).format(
-                                    'MM-DD-YYYY'
+                                    constants.DEFAULT_DATE_FORMAT
                                 ) || ''}
                             </p>
                             {isRedacted && (

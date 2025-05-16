@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import Utils from '@/common/utils'
@@ -11,11 +12,21 @@ export const fetchSummary = createAsyncThunk(
         try {
             const state = thunkAPI.getState() as RootState
 
-            const { form } = state.caseNotes
+            const { currentFormInfo } = state.caseNotes
             const { rest_api_timeout_in_seconds } = state.config.configuration
 
+            const payload = {
+                claimant_id: currentFormInfo.claimant_id,
+                start_date: dayjs(currentFormInfo.start_date).format(
+                    constants.DEFAULT_DATE_FORMAT
+                ),
+                end_date: dayjs(currentFormInfo.end_date).format(
+                    constants.DEFAULT_DATE_FORMAT
+                )
+            }
+
             const response = await SummaryService.getSummary(
-                form,
+                payload,
                 rest_api_timeout_in_seconds
             )
             return (

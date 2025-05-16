@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import Utils from '@/common/utils'
 import { RootState } from '@/store/types'
 import constants from '@/common/constants'
+import { setFormExpanded } from '../config'
 import CaseNotesService from '@api/services/case-notes'
 
 export const fetchCaseNotes = createAsyncThunk(
@@ -17,8 +18,8 @@ export const fetchCaseNotes = createAsyncThunk(
 
             const payload = {
                 claimant_id: form.claimant_id,
-                start_date: dayjs(form.start_date).format('MM-DD-YYYY'),
-                end_date: dayjs(form.end_date).format('MM-DD-YYYY')
+                start_date: dayjs(form.start_date).format(constants.DEFAULT_DATE_FORMAT),
+                end_date: dayjs(form.end_date).format(constants.DEFAULT_DATE_FORMAT)
             }
 
             const response = await CaseNotesService.fetchCaseNotes(
@@ -26,8 +27,9 @@ export const fetchCaseNotes = createAsyncThunk(
                 rest_api_timeout_in_seconds
             )
 
-            const caseNotes = response?.LookUpNotes?.Notes ?? []
+            thunkAPI.dispatch(setFormExpanded(false))
 
+            const caseNotes = response?.LookUpNotes?.Notes ?? []
             return caseNotes
         } catch (error) {
             return Utils.handleThunkRejection(
