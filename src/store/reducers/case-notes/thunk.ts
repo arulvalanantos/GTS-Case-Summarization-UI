@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import Utils from '@/common/utils'
@@ -14,8 +15,14 @@ export const fetchCaseNotes = createAsyncThunk(
             const { form } = state.caseNotes
             const { rest_api_timeout_in_seconds } = state.config.configuration
 
+            const payload = {
+                claimant_id: form.claimant_id,
+                start_date: dayjs(form.start_date).format('MM-DD-YYYY'),
+                end_date: dayjs(form.end_date).format('MM-DD-YYYY')
+            }
+
             const response = await CaseNotesService.fetchCaseNotes(
-                form,
+                payload,
                 rest_api_timeout_in_seconds
             )
 
