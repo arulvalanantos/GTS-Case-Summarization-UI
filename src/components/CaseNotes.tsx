@@ -160,7 +160,9 @@ const CaseNotes: React.FC = () => {
             className={`${
                 isViewMode ? 'hidden' : 'flex'
             } flex-col transition-height duration-500 ease-in-out ${
-                isCaseNotesExpanded ? 'flex-4 w-full h-full min-h-0' : 'h-10'
+                isCaseNotesExpanded
+                    ? 'flex-4 w-full h-full min-h-0 overflow-auto'
+                    : 'h-10'
             }`}
         >
             <div className="flex flex-col gap-2 flex-none">
@@ -251,8 +253,8 @@ const CaseNotes: React.FC = () => {
                                                     caseNotes.length
                                                         ? 'text-primary '
                                                         : !caseNotes.length
-                                                          ? 'text-gray-300'
-                                                          : 'text-gray-500'
+                                                        ? 'text-gray-300'
+                                                        : 'text-gray-500'
                                                 }
                                             `}
                                         />

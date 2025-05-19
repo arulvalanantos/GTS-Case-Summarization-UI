@@ -210,8 +210,10 @@ const CaseSummary: React.FC = () => {
                 </div>
                 {isSummaryExpanded && (
                     <div
-                        className={`px-3 py-2 h-full overflow-auto ${
-                            !summary || isFetchingSummary ? 'my-5' : ''
+                        className={`px-3 py-2 h-full ${
+                            !summary || isFetchingSummary
+                                ? 'my-5'
+                                : ' overflow-auto'
                         }`}
                     >
                         {isFetchingSummary && (

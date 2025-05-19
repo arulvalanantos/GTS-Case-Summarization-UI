@@ -156,7 +156,7 @@ const CaseNoteView: React.FC = () => {
                     )}
                 </div>
             </div>
-            <div className="px-3 flex flex-row items-center gap-5 text-xs md:text-sm text-primary">
+            <div className="px-3 flex flex-col md:flex-row md:items-center gap-2 md:gap-5 text-xs md:text-sm text-primary">
                 <p className="flex flex-row gap-1 items-center">
                     <span>Created By:</span>
                     <span>{caseNote?.Created_By}</span>
@@ -167,25 +167,11 @@ const CaseNoteView: React.FC = () => {
                 </p>
             </div>
             <div className="px-3">
-                <p className={`${fontSize} font-normal`}>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Atque impedit quo accusantium beatae. Labore, animi?
-                    Accusamus omnis in commodi velit veniam consequatur quis
-                    quisquam, ipsum doloremque! Assumenda velit quos
-                    repellendus? Lorem ipsum dolor sit amet consectetur,
-                    adipisicing elit. Quia dolorum est impedit eos cum harum
-                    nemo quis. Culpa ex quisquam quam unde voluptate enim sed
-                    est. Amet accusantium praesentium aperiam. Lorem ipsum dolor
-                    sit amet consectetur adipisicing elit. Pariatur rem rerum
-                    sint dignissimos delectus, iusto nisi minima nulla, tempore,
-                    laborum aperiam. Nemo voluptate impedit est dolores
-                    quibusdam tempora. Nobis, tenetur? Lorem ipsum dolor sit
-                    amet consectetur adipisicing elit. Porro doloribus in
-                    voluptatibus pariatur temporibus esse perferendis
-                    exercitationem, debitis fuga placeat voluptatum vel
-                    praesentium tempore ut minus quia? Error, eveniet porro!
+                <p
+                    className={`bg-secondary p-2 rounded select-none font-normal ${fontSize}`}
+                >
+                    {caseNote?.Message}
                 </p>
-                <p className={`${fontSize} font-normal`}>{caseNote?.Message}</p>
             </div>
         </div>
     )
