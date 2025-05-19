@@ -10,7 +10,6 @@ export default defineConfig({
         open: true,
         strictPort: true,
         port: 5173,
-        host: '127.0.0.1'
     },
     resolve: {
         alias: {

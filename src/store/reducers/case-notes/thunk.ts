@@ -18,8 +18,12 @@ export const fetchCaseNotes = createAsyncThunk(
 
             const payload = {
                 claimant_id: form.claimant_id,
-                start_date: dayjs(form.start_date).format(constants.DEFAULT_DATE_FORMAT),
-                end_date: dayjs(form.end_date).format(constants.DEFAULT_DATE_FORMAT)
+                start_date: dayjs(form.start_date).format(
+                    constants.DEFAULT_DATE_FORMAT
+                ),
+                end_date: dayjs(form.end_date).format(
+                    constants.DEFAULT_DATE_FORMAT
+                )
             }
 
             const response = await CaseNotesService.fetchCaseNotes(
@@ -29,7 +33,8 @@ export const fetchCaseNotes = createAsyncThunk(
 
             thunkAPI.dispatch(setFormExpanded(false))
 
-            const caseNotes = response?.LookUpNotes?.Notes ?? []
+            const caseNotes = response.data?.LookUpNotes?.Notes ?? []
+
             return caseNotes
         } catch (error) {
             return Utils.handleThunkRejection(

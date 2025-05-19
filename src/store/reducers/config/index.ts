@@ -5,7 +5,7 @@ import constants from '@common/constants'
 import { fetchAdminConfig } from './thunk'
 import { AdminConfiguration, configInitialState } from './types'
 
-const adminConfigInitialState = {
+export const adminConfigInitialState = {
     claimant_id_min_length: 1,
     claimant_id_max_length: 8,
     default_date_range_in_months: 6,

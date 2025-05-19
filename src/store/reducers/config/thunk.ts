@@ -1,13 +1,16 @@
+import { createAsyncThunk } from '@reduxjs/toolkit'
+
 import Utils from '@/common/utils'
 import constants from '@/common/constants'
+import { adminConfigInitialState } from '.'
 import generalService from '@/api/services/general'
-import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchAdminConfig = createAsyncThunk(
     'config/fetchAdminConfig',
     async (_, thunkAPI) => {
         try {
-            const configuration = await generalService.getAdminConfig()
+            const response = await generalService.getAdminConfig()
+            const configuration = response?.data ?? adminConfigInitialState
 
             return configuration
         } catch (error) {

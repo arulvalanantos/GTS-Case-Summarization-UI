@@ -5,7 +5,7 @@ const constants = {
         CASE_SUMMARY_HEIGHT: 'case_summary_height'
     },
     API_CONFIG: {
-        DEFAULT_AXIOS_TIMEOUT: 10000,
+        DEFAULT_AXIOS_TIMEOUT: 60000, // 1 minute
         X_REQUEST_HEADER: 'X-Request-ID',
         AXIOS_TIMEOUT_MESSAGE: 'Timeout exceeded',
         AUTHORIZATION: 'Authorization'

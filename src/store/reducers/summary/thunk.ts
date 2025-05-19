@@ -29,12 +29,13 @@ export const fetchSummary = createAsyncThunk(
                 payload,
                 rest_api_timeout_in_seconds
             )
-            return (
-                response ?? {
-                    message: '',
-                    notes: ''
-                }
-            )
+
+            const summary = response?.data ?? {
+                message: '',
+                notes: ''
+            }
+
+            return summary
         } catch (error) {
             return Utils.handleThunkRejection(
                 error,
