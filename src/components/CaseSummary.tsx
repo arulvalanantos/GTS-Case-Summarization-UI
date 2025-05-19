@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
+import ReactMarkdown from 'react-markdown'
 import { FaRegClone } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import { FaArrowRotateLeft } from 'react-icons/fa6'
-import CircularProgress from '@mui/material/CircularProgress'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
+import Loader from './Loader'
 import SectionTitle from './SectionTitle'
 import constants from '@/common/constants'
 import { useAppDispatch } from '@/store/hooks'
@@ -217,15 +218,16 @@ const CaseSummary: React.FC = () => {
                         }`}
                     >
                         {isFetchingSummary && (
-                            <div className="w-full h-full flex items-center justify-center">
-                                <CircularProgress size={16} />
-                            </div>
+                            <Loader
+                                message={
+                                    constants.LOADER_MESSAGE
+                                        .FETCHING_CASE_SUMMARY
+                                }
+                            />
                         )}
                         {summary && !isFetchingSummary && (
-                            <div>
-                                <p className="bg-secondary p-2 rounded font-normal text-sm select-none">
-                                    {summary}
-                                </p>
+                            <div className="bg-secondary p-2 rounded font-normal text-sm select-none">
+                                <ReactMarkdown>{summary}</ReactMarkdown>
                             </div>
                         )}
                     </div>

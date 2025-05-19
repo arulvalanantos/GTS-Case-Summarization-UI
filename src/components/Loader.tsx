@@ -7,13 +7,10 @@ type LoaderProps = {
 const Loader: React.FC<LoaderProps> = ({ message = '' }) => {
     return (
         <div className="w-full h-full flex justify-center items-center">
-            <div className="flex flex-row gap-4">
-                <CircularProgress
-                    size={24}
-                    title="Fetching Admin Configuration"
-                />
+            <div className="flex flex-row gap-4 items-center">
+                <CircularProgress size={20} title={message} />
                 {message && (
-                    <p className="italic font-light text-base text-gray">
+                    <p className="italic font-light text-xs md:text-sm text-gray">
                         {message}
                     </p>
                 )}

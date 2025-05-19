@@ -52,6 +52,7 @@ const constants = {
     MAX_GO_BACK_YEAR: 2013,
     MIN_START_DATE: '2013-10-15',
     LOADER_MESSAGE: {
+        FETCHING_CASE_SUMMARY: 'Fetching Case Summary',
         FETCHING_ADMIN_CONFIG: 'Fetching Admin Configuration',
         FETCHING_CASE_NOTES: 'Fetching Case Notes'
     }
