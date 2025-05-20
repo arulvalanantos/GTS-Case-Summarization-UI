@@ -38,14 +38,14 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
     }
 
     return (
-        <div className="bg-secondary p-2 flex flex-col gap-2 rounded">
+        <div className="bg-secondary p-2 flex flex-col gap-2 rounded @container">
             <div className="border-b-2 pb-3 border-primary">
                 <div className="flex flex-row items-center justify-between  ">
                     <div className="flex flex-col gap-1">
                         <h2 className="text-sm md:text-base font-bold">
                             CLAIM ID: {caseNote.Claim_ID}
                         </h2>
-                        <div className="flex flex-row items-center gap-5 text-xs md:text-sm">
+                        <div className="flex flex-col @[300px]:flex-row items-start @[300px]:items-center gap-2 @[300px]:gap-5 text-xs md:text-sm">
                             <p className="text-primary ">
                                 {dayjs(caseNote.Created_Date).format(
                                     constants.DEFAULT_DATE_FORMAT
@@ -87,7 +87,7 @@ const CaseNote: React.FC<CaseNoteProps> = ({ caseNote }) => {
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-row items-center gap-5 mt-2 text-xs md:text-sm text-primary">
+                <div className="flex flex-col @[425px]:flex-row items-start @[425px]:items-center gap-2 @[425px]:gap-5 mt-2 text-xs md:text-sm text-primary">
                     <p>
                         Created By: <span>{caseNote.Created_By}</span>
                     </p>
