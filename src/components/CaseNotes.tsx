@@ -253,8 +253,8 @@ const CaseNotes: React.FC = () => {
                                                     caseNotes.length
                                                         ? 'text-primary '
                                                         : !caseNotes.length
-                                                        ? 'text-gray-300'
-                                                        : 'text-gray-500'
+                                                          ? 'text-gray-300'
+                                                          : 'text-gray-500'
                                                 }
                                             `}
                                         />
