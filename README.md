@@ -41,3 +41,7 @@
   ```bash
   npm run build
   ```
+
+## Documentation
+
+- For detailed usage, architecture, and API documentation, see the [`Documentation.md`](./Documentation.md) file in the project root.
